@@ -1,0 +1,98 @@
+{
+  "title": { "fr": "Alice & Lucas — Cérémonie", "en": "Alice & Lucas — Ceremony" },
+  "subtitle": { "fr": "Déroulement · 17h30 · 30 Juin 2026", "en": "Runsheet · 5:30 PM · June 30, 2026" },
+  "total_duration": { "fr": "~30 minutes", "en": "~30 minutes" },
+  "total_label": { "fr": "Durée totale estimée", "en": "Estimated total duration" },
+  "fit_label": { "fr": "Dans les 30–40 min ✓", "en": "Within 30–40 min ✓" },
+  "progress_segments": [
+    { "label": { "fr": "Entrées", "en": "Procession" }, "color": "#7a3ea3", "width": "18%" },
+    { "label": { "fr": "Accueil", "en": "Welcome" }, "color": "#2e7d4f", "width": "13%" },
+    { "label": { "fr": "Parents", "en": "Parents" }, "color": "#c05c00", "width": "10%" },
+    { "label": { "fr": "Vœux", "en": "Vows" }, "color": "#3a6ea8", "width": "23%" },
+    { "label": { "fr": "Alliances", "en": "Rings" }, "color": "#c9a030", "width": "19%" },
+    { "label": { "fr": "Clôture", "en": "Closing" }, "color": "#a33030", "width": "17%" }
+  ],
+  "steps": [
+    {
+      "num": "1",
+      "type": "entry",
+      "duration": "~3 min",
+      "title": { "fr": "Entrée du cortège / Wedding party enters", "en": "Wedding party enters" },
+      "who": { "fr": "5 couples — 5 demoiselles d'honneur + 5 témoins", "en": "5 couples — 5 bridesmaids + 5 best men" },
+      "desc": { "fr": "Les 5 couples entrent en musique un par un et prennent leur place.", "en": "The 5 couples walk in one by one to music and take their places." },
+      "flag": null
+    },
+    {
+      "num": "2",
+      "type": "entry",
+      "duration": "~30 sec",
+      "title": { "fr": "Entrée de Lucas", "en": "Lucas enters" },
+      "who": { "fr": "Lucas + sa maman", "en": "Lucas + his mom" },
+      "desc": { "fr": "Lucas entre avec sa maman et prend sa place.", "en": "Lucas walks in with his mom and takes his place." },
+      "flag": null
+    },
+    {
+      "num": "♡",
+      "type": "wedding",
+      "duration": "~2 min",
+      "title": { "fr": "Entrée d'Alice", "en": "Alice enters" },
+      "who": { "fr": "Alice", "en": "Alice" },
+      "desc": { "fr": "Tout le monde se lève. Alice entre en musique et rejoint Lucas.", "en": "Everyone stands. Alice walks in to music and joins Lucas." },
+      "flag": null
+    },
+    {
+      "num": "4",
+      "type": "word",
+      "duration": "~2 min",
+      "title": { "fr": "Mot d'introduction — MC Anne-Laure", "en": "Introduction — MC Anne-Laure" },
+      "who": { "fr": "Anne-Laure — MC & demoiselle d'honneur d'Alice", "en": "Anne-Laure — MC & Alice's maid of honor" },
+      "desc": { "fr": "Quelques mots de bienvenue pour accueillir les invités, puis passage de parole à Alaina.", "en": "A few words of welcome for the guests, then passing to Alaina." },
+      "flag": null
+    },
+    {
+      "num": "5",
+      "type": "word",
+      "duration": "~2 min",
+      "title": { "fr": "Introduction de la cérémonie — Alaina", "en": "Ceremony introduction — Alaina" },
+      "who": { "fr": "Alaina Lorriman — Officiant", "en": "Alaina Lorriman — Officiant" },
+      "desc": { "fr": "Alaina présente la cérémonie et introduit les discours des parents.", "en": "Alaina presents the ceremony and introduces the parent speeches." },
+      "flag": null
+    },
+    {
+      "num": "6",
+      "type": "speech",
+      "duration": "~3 min",
+      "title": { "fr": "Discours des parents de Lucas", "en": "Lucas's parents' speech" },
+      "who": { "fr": "Maman & papa de Lucas — ensemble", "en": "Lucas's mom & dad — together" },
+      "desc": { "fr": "Les parents de Lucas prennent la parole ensemble. Court et sincère.", "en": "Lucas's parents speak together. Short and heartfelt." },
+      "flag": { "fr": "À préparer à l'avance — max 3 min à deux.", "en": "To be prepared in advance — max 3 min together." }
+    },
+    {
+      "num": "7",
+      "type": "vows",
+      "duration": "~7 min",
+      "title": { "fr": "Vœux & cérémonie — Alaina", "en": "Vows & ceremony — Alaina" },
+      "who": { "fr": "Alaina + Alice & Lucas", "en": "Alaina + Alice & Lucas" },
+      "desc": { "fr": "Alaina guide la cérémonie. Alice et Lucas prononcent leurs vœux (~1 min chacun). Alaina complète avec les formules officielles.", "en": "Alaina guides the ceremony. Alice and Lucas say their vows (~1 min each). Alaina completes with the official wording." },
+      "flag": null
+    },
+    {
+      "num": "8",
+      "type": "rings",
+      "duration": "~5 min",
+      "title": { "fr": "Échange des alliances — Zoa & Chris", "en": "Ring exchange — Zoa & Chris" },
+      "who": { "fr": "Zoa (les alliances) · Chris (porte Zoa)", "en": "Zoa (the rings) · Chris (holds Zoa)" },
+      "desc": { "fr": "Chris apporte Zoa avec les alliances. Alice et Lucas échangent les anneaux pendant qu'Alaina prononce les mots officiels.", "en": "Chris brings Zoa in with the rings. Alice and Lucas exchange rings while Alaina says the official words." },
+      "flag": { "fr": "⚠️ Briefer Chris sur le timing. S'assurer que Zoa est à l'aise avec la foule.", "en": "⚠️ Brief Chris on the exact cue. Make sure Zoa is comfortable with the crowd." }
+    },
+    {
+      "num": "9",
+      "type": "close",
+      "duration": "~5 min",
+      "title": { "fr": "Prononciation & sortie", "en": "Pronouncement & exit" },
+      "who": { "fr": "Alaina + Alice & Lucas", "en": "Alaina + Alice & Lucas" },
+      "desc": { "fr": "Alaina prononce le mariage. Le baiser. Sortie du couple en musique — direction le cocktail.", "en": "Alaina pronounces the marriage. The kiss. Couple exits to music — cocktail time." },
+      "flag": null
+    }
+  ]
+}

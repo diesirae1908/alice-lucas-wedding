@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alice & Lucas — Wedding Week Calendar</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: #f9f6f0;
+    color: #333;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  header .hearts { font-size: 28px; letter-spacing: 8px; margin-bottom: 8px; }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    color: #2c2c2c;
+    letter-spacing: 1px;
+  }
+
+  header h1 em { color: #8b6e52; font-style: italic; }
+
+  header .subtitle {
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8b6e52;
+    margin-top: 8px;
+    font-weight: 300;
+  }
+
+  header .location {
+    font-size: 14px;
+    color: #888;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  .divider {
+    text-align: center;
+    margin: 0 auto 36px;
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #c9a87a, transparent);
+  }
+
+  /* Calendar grid */
+  .calendar {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+  }
+
+  .day-col {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .day-col.highlight {
+    box-shadow: 0 4px 20px rgba(139,110,82,0.25);
+    border: 2px solid #c9a87a;
+  }
+
+  .day-header {
+    padding: 14px 12px 10px;
+    text-align: center;
+  }
+
+  .day-name {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: #888;
+  }
+
+  .day-date {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: #2c2c2c;
+    line-height: 1;
+    margin: 4px 0 2px;
+  }
+
+  .day-month {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #aaa;
+  }
+
+  .day-col.highlight .day-header { background: #8b6e52; }
+  .day-col.highlight .day-name { color: rgba(255,255,255,0.7); }
+  .day-col.highlight .day-date { color: white; }
+  .day-col.highlight .day-month { color: rgba(255,255,255,0.6); }
+
+  .day-col.soft .day-header { background: #f5f0ea; }
+
+  .events {
+    padding: 10px 10px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .event {
+    border-radius: 8px;
+    padding: 9px 10px;
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+
+  .event .event-time {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    opacity: 0.75;
+  }
+
+  .event .event-title {
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .event .event-desc {
+    font-size: 11.5px;
+    margin-top: 2px;
+    opacity: 0.8;
+  }
+
+  /* Event color themes */
+  .event.arrival    { background: #eef4fb; color: #3a6ea8; }
+  .event.checkin    { background: #edf7f0; color: #2e7d4f; }
+  .event.rehearsal  { background: #fdf3e7; color: #9c6c1f; }
+  .event.ceremony   { background: #f5e8f8; color: #7a3ea3; }
+  .event.party      { background: #fff0e6; color: #c05c00; }
+  .event.open       { background: #f0faf5; color: #2d6b55; }
+  .event.farewell   { background: #fde8e8; color: #a33333; }
+  .event.free       { background: #f7f7f7; color: #666; }
+  .event.checkout   { background: #edf7f0; color: #2e7d4f; }
+  .event.important  { background: #fef9e7; color: #7d6608; border-left: 3px solid #f1c40f; }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 28px;
+    justify-content: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #555;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .note-box {
+    background: #fffbe8;
+    border: 1px solid #e8d68a;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-top: 28px;
+    font-size: 13px;
+    color: #6b5800;
+    line-height: 1.7;
+  }
+
+  .note-box strong { font-weight: 700; display: block; margin-bottom: 4px; }
+
+  footer {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 12px;
+    color: #aaa;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 800px) {
+    .calendar { grid-template-columns: 1fr 1fr; }
+    header h1 { font-size: 28px; }
+  }
+  @media (max-width: 500px) {
+    .calendar { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="hearts">🌿 ♡ 🌿</div>
+    <h1><em>Alice</em> & <em>Lucas</em></h1>
+    <div class="subtitle">Wedding Week · Golden, British Columbia</div>
+    <div class="location">📍 Wild Wood Cabins · Kicking Horse Mountain Resort · Eagle's Eye Restaurant</div>
+  </header>
+
+  <div class="divider"></div>
+
+  <div class="calendar">
+
+    <!-- SAT JUNE 27 -->
+    <div class="day-col soft">
+      <div class="day-header">
+        <div class="day-name">Saturday</div>
+        <div class="day-date">27</div>
+        <div class="day-month">June 2026</div>
+      </div>
+      <div class="events">
+        <div class="event arrival">
+          <div class="event-time">All Day</div>
+          <div class="event-title">🚗 Early Arrivals</div>
+          <div class="event-desc">Guests start arriving in Golden</div>
+        </div>
+        <div class="event checkin">
+          <div class="event-time">4:00 PM</div>
+          <div class="event-title">🏠 Bear's Den Check-in</div>
+          <div class="event-desc">Bear's Den cabin opens (only cabin available tonight)</div>
+        </div>
+        <div class="event free">
+          <div class="event-time">Evening</div>
+          <div class="event-title">🌄 Explore Golden</div>
+          <div class="event-desc">Settle in, grab dinner downtown</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUN JUNE 28 -->
+    <div class="day-col soft">
+      <div class="day-header">
+        <div class="day-name">Sunday</div>
+        <div class="day-date">28</div>
+        <div class="day-month">June 2026</div>
+      </div>
+      <div class="events">
+        <div class="event checkin">
+          <div class="event-time">4:00 PM</div>
+          <div class="event-title">🏕️ All Cabins Open</div>
+          <div class="event-desc">All 9 cabins available: Cougar's Cave, Raven's Landing, Deer Crossing, Moose's Meadow, Trapper's Haven, Bungalows A & B, Owl's Lookout</div>
+        </div>
+        <div class="event arrival">
+          <div class="event-time">All Day</div>
+          <div class="event-title">✈️ Guest Arrivals</div>
+          <div class="event-desc">Main wave of guests arrives — welcome to Canada! 🇨🇦</div>
+        </div>
+        <div class="event open">
+          <div class="event-time">Evening</div>
+          <div class="event-title">🔥 Settle In Together</div>
+          <div class="event-desc">Campfires, hot tubs, first hellos at the cabins</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MON JUNE 29 -->
+    <div class="day-col">
+      <div class="day-header">
+        <div class="day-name">Monday</div>
+        <div class="day-date">29</div>
+        <div class="day-month">June 2026</div>
+      </div>
+      <div class="events">
+        <div class="event free">
+          <div class="event-time">Morning</div>
+          <div class="event-title">☀️ Free Time</div>
+          <div class="event-desc">Explore Golden, hike, relax at the cabins</div>
+        </div>
+        <div class="event rehearsal">
+          <div class="event-time">Afternoon / TBD</div>
+          <div class="event-title">💍 Ceremony Rehearsal</div>
+          <div class="event-desc">At Wild Wood Cabins (676 Lafontaine Rd E) with officiant Alaina Lorriman</div>
+        </div>
+        <div class="event open">
+          <div class="event-time">Evening</div>
+          <div class="event-title">🌙 Rehearsal Dinner</div>
+          <div class="event-desc">Casual evening together — TBC with couple</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TUE JUNE 30 — WEDDING DAY -->
+    <div class="day-col highlight">
+      <div class="day-header">
+        <div class="day-name">Tuesday — ★ THE BIG DAY ★</div>
+        <div class="day-date">30</div>
+        <div class="day-month">June 2026</div>
+      </div>
+      <div class="events">
+        <div class="event free">
+          <div class="event-time">Morning</div>
+          <div class="event-title">🌸 Getting Ready</div>
+          <div class="event-desc">Preparations at the cabins</div>
+        </div>
+        <div class="event rehearsal">
+          <div class="event-time">3:30 PM</div>
+          <div class="event-title">🎨 Décor Setup at Eagle's Eye</div>
+          <div class="event-desc">Vendors & up to 4 decorators access the venue via gondola</div>
+        </div>
+        <div class="event arrival">
+          <div class="event-time">5:00 PM</div>
+          <div class="event-title">🚡 Gondola Boarding Opens</div>
+          <div class="event-desc">All guests board the gondola to Kicking Horse summit (2,347 m / 7,700 ft!)</div>
+        </div>
+        <div class="event ceremony">
+          <div class="event-time">5:30 PM</div>
+          <div class="event-title">💒 Wedding Ceremony</div>
+          <div class="event-desc">Eagle's Eye Restaurant, mountaintop — Officiated by Alaina Lorriman. Cocktail hour follows on the terrace.</div>
+        </div>
+        <div class="event party">
+          <div class="event-time">Evening</div>
+          <div class="event-title">🥂 Dinner & Celebration</div>
+          <div class="event-desc">Reception, speeches, dancing at Eagle's Eye</div>
+        </div>
+        <div class="event farewell">
+          <div class="event-time">12:15 AM</div>
+          <div class="event-title">🌙 Bar Closes / End of Event</div>
+          <div class="event-desc">All guests depart Eagle's Eye by 12:45 AM via gondola</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WED JULY 1 -->
+    <div class="day-col soft">
+      <div class="day-header">
+        <div class="day-name">Wednesday 🇨🇦</div>
+        <div class="day-date">1</div>
+        <div class="day-month">July 2026</div>
+      </div>
+      <div class="events">
+        <div class="event important">
+          <div class="event-time">🇨🇦 Canada Day!</div>
+          <div class="event-title">Fête du Canada</div>
+          <div class="event-desc">National holiday — Golden celebrations, fireworks, festivities</div>
+        </div>
+        <div class="event free">
+          <div class="event-time">All Day</div>
+          <div class="event-title">😴 Rest & Recovery</div>
+          <div class="event-desc">Sleep in, hot tubs, gentle hikes, Canada Day events in town</div>
+        </div>
+        <div class="event open">
+          <div class="event-time">Evening</div>
+          <div class="event-title">🎆 Canada Day Fireworks</div>
+          <div class="event-desc">Celebrate with the community of Golden</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THU JULY 2 -->
+    <div class="day-col">
+      <div class="day-header">
+        <div class="day-name">Thursday</div>
+        <div class="day-date">2</div>
+        <div class="day-month">July 2026</div>
+      </div>
+      <div class="events">
+        <div class="event free">
+          <div class="event-time">All Day</div>
+          <div class="event-title">🏔️ Adventure Day</div>
+          <div class="event-desc">Hiking, rafting, mountain biking, Kicking Horse — explore the Rockies!</div>
+        </div>
+        <div class="event open">
+          <div class="event-time">Evening</div>
+          <div class="event-title">🔥 Last Night Together</div>
+          <div class="event-desc">Final evening at the cabins — campfires, stargazing</div>
+        </div>
+        <div class="event important">
+          <div class="event-time">⚠️ Note</div>
+          <div class="event-title">Pack Tonight</div>
+          <div class="event-desc">Check-out tomorrow at 11:00 AM (Bear's Den July 4)</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end calendar -->
+
+  <!-- Extra row for checkout -->
+  <div style="display:grid; grid-template-columns: repeat(6,1fr); gap:12px; margin-top:12px;">
+    <div style="grid-column: 1 / 4;">
+      <div class="day-col" style="flex-direction:row; align-items:center; padding: 14px 18px; gap:14px;">
+        <div style="text-align:center; min-width:60px;">
+          <div class="day-name" style="font-size:10px; text-transform:uppercase; letter-spacing:2px; font-weight:700; color:#888;">Friday</div>
+          <div style="font-family:'Playfair Display',serif; font-size:28px; color:#2c2c2c; line-height:1;">3</div>
+          <div style="font-size:10px; text-transform:uppercase; color:#aaa;">July</div>
+        </div>
+        <div style="flex:1;">
+          <div class="event checkout" style="border-radius:8px; padding:9px 10px;">
+            <div class="event-time">By 11:00 AM</div>
+            <div class="event-title">🏠 Checkout — All Cabins</div>
+            <div class="event-desc">All cabins except Bear's Den — safe travels, we love you! 💛</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="grid-column: 4 / 7;">
+      <div class="day-col" style="flex-direction:row; align-items:center; padding: 14px 18px; gap:14px;">
+        <div style="text-align:center; min-width:60px;">
+          <div class="day-name" style="font-size:10px; text-transform:uppercase; letter-spacing:2px; font-weight:700; color:#888;">Saturday</div>
+          <div style="font-family:'Playfair Display',serif; font-size:28px; color:#2c2c2c; line-height:1;">4</div>
+          <div style="font-size:10px; text-transform:uppercase; color:#aaa;">July</div>
+        </div>
+        <div style="flex:1;">
+          <div class="event checkout" style="border-radius:8px; padding:9px 10px;">
+            <div class="event-time">By 11:00 AM</div>
+            <div class="event-title">🐻 Bear's Den Checkout</div>
+            <div class="event-desc">Last cabin checks out — end of the adventure</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#3a6ea8;"></div> Travel / Arrivals</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2e7d4f;"></div> Check-in / Check-out</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#9c6c1f;"></div> Rehearsal</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7a3ea3;"></div> Ceremony</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#c05c00;"></div> Party & Celebration</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#666;"></div> Free Time</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7d6608;"></div> Important Note</div>
+  </div>
+
+  <div class="note-box">
+    <strong>📌 Key Info for All Guests</strong>
+    🏕️ <b>Cabins:</b> Wild Wood Cabins, 676 Lafontaine Rd East, Golden BC — ~10 min from downtown Golden &nbsp;|&nbsp;
+    🚡 <b>Wedding Venue:</b> Eagle's Eye Restaurant, Kicking Horse Mountain Resort (gondola access) &nbsp;|&nbsp;
+    🎫 <b>Gondola:</b> Your 2-Day Adventure Pass is included — valid on the wedding day + one other consecutive day &nbsp;|&nbsp;
+    🪪 <b>ID Required:</b> Valid government ID required to be served alcohol (legal age is 19+ in BC) &nbsp;|&nbsp;
+    🚗 <b>Parking:</b> Kicking Horse Resort base area — gondola boarding from 5:00 PM &nbsp;|&nbsp;
+    🎟️ <b>Resort Code:</b> For additional accommodation at the resort, use booking code <b>KHMRWED</b>
+  </div>
+
+  <footer>Made with love for Alice & Lucas · June 30, 2026 · Golden, British Columbia 🏔️</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alice & Lucas · 30 Juin 2026</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      background: #faf8f5;
+      color: #1a1209;
+      line-height: 1.5;
+    }
+
+    /* ── Header ─────────────────────────────────────────── */
+    #site-header {
+      background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 100%);
+      color: white;
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+    .header-brand { display: flex; align-items: center; gap: 10px; }
+    .header-heart { font-size: 22px; color: #c9a030; line-height: 1; }
+    .header-names { font-size: 17px; font-weight: 700; letter-spacing: 0.3px; }
+    .header-sub   { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 1px; }
+
+    #lang-btn {
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 5px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    #lang-btn:hover { background: rgba(255,255,255,0.22); }
+
+    /* ── Tab nav ─────────────────────────────────────────── */
+    .tab-nav {
+      display: flex;
+      background: white;
+      border-bottom: 2px solid #e5e7eb;
+      position: sticky;
+      top: 60px;
+      z-index: 99;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 9px 4px 8px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 11px;
+      color: #9ca3af;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-family: inherit;
+    }
+    .tab-btn .ti { font-size: 17px; }
+    .tab-btn.active { color: #7a3ea3; border-bottom-color: #7a3ea3; font-weight: 700; }
+    .tab-btn:hover:not(.active) { color: #6b7280; background: #f9fafb; }
+
+    /* ── Main layout ─────────────────────────────────────── */
+    main { max-width: 820px; margin: 0 auto; padding: 16px; }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    /* ── Tab headings ────────────────────────────────────── */
+    .tab-title    { font-size: 18px; font-weight: 700; color: #2c1810; margin-bottom: 2px; }
+    .tab-subtitle { font-size: 12px; color: #8B6E52; margin-bottom: 14px; }
+
+    /* ── Legend ──────────────────────────────────────────── */
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 6px 12px;
+      margin-bottom: 16px; padding: 10px 14px;
+      background: white; border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      border: 1px solid #f0ece7;
+    }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #4b5563; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+    /* ── Event card (Tab 1 calendar) ─────────────────────── */
+    .event-card {
+      border-radius: 8px;
+      padding: 9px 11px;
+      border-left: 4px solid;
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      gap: 10px;
+      align-items: start;
+      transition: box-shadow 0.15s;
+    }
+    .event-card.is-wedding {
+      border-width: 2px;
+      border-left-width: 4px;
+      box-shadow: 0 2px 12px rgba(122,62,163,0.18);
+    }
+    .event-time  { font-size: 10.5px; font-weight: 700; color: #374151; padding-top: 2px; line-height: 1.35; }
+    .event-title { font-size: 13px; font-weight: 600; }
+    .event-desc  { font-size: 12px; color: #6b7280; margin-top: 3px; line-height: 1.45; }
+    .event-flag  { font-size: 11px; color: #92400e; font-style: italic; margin-top: 5px;
+                   background: #fef9ec; padding: 4px 8px; border-radius: 4px; line-height: 1.4; }
+    .event-who   { font-size: 11px; color: #8B6E52; margin-top: 3px; font-style: italic; }
+
+    /* ── Day card (Tab 1) ────────────────────────────────── */
+    .day-card {
+      background: white; border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden; margin-bottom: 18px;
+    }
+    .day-card.is-highlight {
+      box-shadow: 0 4px 20px rgba(201,160,48,0.25);
+      border: 2px solid #c9a030;
+    }
+    .day-header { padding: 12px 14px; background: #f5f3ef; border-bottom: 1px solid #e8e4de; }
+    .day-card.is-highlight .day-header {
+      background: linear-gradient(135deg, #3a1f10, #6a2e90);
+      color: white;
+    }
+    .day-name  { font-size: 15px; font-weight: 700; }
+    .day-theme { font-size: 12px; color: #6b7280; margin-top: 2px; }
+    .day-card.is-highlight .day-theme { color: rgba(255,255,255,0.75); }
+    .day-events { padding: 11px; display: flex; flex-direction: column; gap: 7px; }
+
+    /* ── Timeline (Tab 2) ────────────────────────────────── */
+    .section-sep {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: #8B6E52;
+      padding: 18px 0 8px; border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 10px;
+    }
+    .tl-events { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+    .tl-row { display: grid; grid-template-columns: 68px 1fr; gap: 10px; align-items: start; }
+    .tl-time { font-size: 10.5px; font-weight: 700; color: #374151; text-align: right; padding-top: 11px; line-height: 1.35; }
+    .tl-card { border-radius: 8px; padding: 10px 12px; border-left: 4px solid; }
+    .tl-card.is-wedding {
+      border-width: 2px; border-left-width: 4px;
+      box-shadow: 0 2px 12px rgba(122,62,163,0.18);
+    }
+
+    /* ── Photographer note ───────────────────────────────── */
+    .photo-note {
+      background: #e8f0fa; border: 1px solid #3a6ea8; border-radius: 8px;
+      padding: 8px 12px; font-size: 11.5px; color: #1e3a5f;
+      margin: 10px 0 6px; display: flex; align-items: center; gap: 8px;
+    }
+
+    /* ── Ceremony (Tab 3) ────────────────────────────────── */
+    .progress-wrap { margin-bottom: 20px; }
+    .progress-bar {
+      display: flex; height: 26px; border-radius: 13px; overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    }
+    .progress-seg {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9.5px; color: white; font-weight: 700;
+      overflow: hidden; white-space: nowrap; padding: 0 4px;
+    }
+    .progress-labels {
+      display: flex; gap: 0; margin-top: 6px;
+    }
+    .progress-label-item {
+      font-size: 10px; color: #6b7280; text-align: center; padding: 0 2px;
+      white-space: nowrap; overflow: hidden;
+    }
+
+    .step-row { display: grid; grid-template-columns: 40px 1fr; gap: 12px; margin-bottom: 10px; align-items: start; }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700; color: white; flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-num.is-heart {
+      background: linear-gradient(135deg, #c9a030, #e8b84b) !important;
+      font-size: 19px;
+    }
+    .step-body { border-radius: 8px; padding: 10px 12px; border-left: 4px solid; }
+    .step-body.is-heart-card {
+      border-width: 2px; border-left-width: 4px;
+      box-shadow: 0 2px 12px rgba(122,62,163,0.18);
+    }
+    .step-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .step-title    { font-size: 13px; font-weight: 600; }
+    .step-duration { font-size: 11px; font-weight: 700; flex-shrink: 0; padding-top: 1px; }
+    .step-who  { font-size: 11px; color: #8B6E52; margin-top: 3px; font-style: italic; }
+    .step-desc { font-size: 12px; color: #4b5563; margin-top: 5px; line-height: 1.45; }
+    .step-flag { font-size: 11px; color: #92400e; font-style: italic; margin-top: 6px;
+                 background: #fef9ec; padding: 4px 8px; border-radius: 4px; }
+
+    /* ── Info box ────────────────────────────────────────── */
+    .info-box {
+      background: linear-gradient(135deg, #fdf8e8, #fff);
+      border: 1px solid #c9a030; border-radius: 12px;
+      padding: 14px 16px; margin-top: 20px;
+      font-size: 12.5px; color: #4b5563; line-height: 1.7;
+    }
+    .info-box-title { font-size: 13px; font-weight: 700; color: #8B6E52; margin-bottom: 8px; }
+    .info-item { padding: 3px 0; border-bottom: 1px solid #f0ece7; }
+    .info-item:last-child { border-bottom: none; }
+    .info-item::before { content: '📌 '; }
+
+    /* ── Ceremony total ──────────────────────────────────── */
+    .ceremony-total {
+      background: linear-gradient(135deg, #f3eafa, #fff);
+      border: 1px solid #7a3ea3; border-radius: 10px;
+      padding: 14px 16px; margin-top: 20px;
+      text-align: center; font-size: 14px; font-weight: 600; color: #7a3ea3;
+    }
+
+    /* ── Desktop grid for day cards ──────────────────────── */
+    @media (min-width: 640px) {
+      .days-grid {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      }
+      .day-card { margin-bottom: 0; }
+      .day-card.is-highlight { grid-column: 1 / -1; }
+      main { padding: 20px; }
+      .event-card { grid-template-columns: 72px 1fr; }
+      .tl-row { grid-template-columns: 76px 1fr; }
+    }
+
+    @media (min-width: 800px) {
+      .tab-btn { font-size: 13px; }
+      .tab-btn .ti { font-size: 19px; }
+    }
+
+    /* ── Handbook (Tab 4) ───────────────────────────────── */
+    .hb-section {
+      background: white; border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      overflow: hidden; margin-bottom: 14px;
+    }
+    .hb-section-header {
+      padding: 12px 16px;
+      background: linear-gradient(135deg, #f5f0eb, #fff);
+      border-bottom: 1px solid #e8e4de;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hb-icon { font-size: 20px; line-height: 1; }
+    .hb-title { font-size: 14px; font-weight: 700; color: #2c1810; }
+    .hb-body { padding: 14px 16px; font-size: 13px; color: #374151; line-height: 1.65; }
+    .hb-p { margin-bottom: 10px; }
+    .hb-p:last-child { margin-bottom: 0; }
+    .hb-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .hb-list li { padding-left: 16px; position: relative; }
+    .hb-list li::before { content: '•'; position: absolute; left: 2px; color: #8B6E52; }
+    .hb-table { width: 100%; border-collapse: collapse; }
+    .hb-table tr { border-bottom: 1px solid #f0ece7; }
+    .hb-table tr:last-child { border-bottom: none; }
+    .hb-table td { padding: 7px 6px; vertical-align: top; font-size: 12.5px; }
+    .hb-table td:first-child { width: 38%; color: #8B6E52; font-weight: 600; white-space: nowrap; padding-right: 10px; }
+    .hb-place { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f0ece7; }
+    .hb-place:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .hb-place-name { font-weight: 700; color: #2c1810; margin-bottom: 2px; }
+    .hb-place-desc { font-size: 12px; color: #6b7280; line-height: 1.45; }
+    .hb-contacts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .hb-contact-card {
+      background: #faf8f5; border: 1px solid #e8e4de; border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .hb-contact-label { font-size: 10.5px; color: #8B6E52; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .hb-contact-value { font-size: 13px; font-weight: 600; color: #1a1209; }
+    .hb-safety-note {
+      background: #fff3e8; border-left: 4px solid #c05c00; border-radius: 0 8px 8px 0;
+      padding: 10px 12px; margin: 10px 0; font-size: 12px; color: #7c3d00;
+    }
+    .hb-welcome {
+      font-style: italic; font-size: 13.5px; color: #374151; line-height: 1.75;
+      border-left: 3px solid #c9a030; padding-left: 14px; margin: 6px 0;
+    }
+
+    /* ── Print (ceremony) ────────────────────────────────── */
+    @media print {
+      #site-header, .tab-nav, #tab-0, #tab-1, #tab-3 { display: none !important; }
+      #tab-2 { display: block !important; }
+      body { background: white; }
+      .step-body, .step-num { box-shadow: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="header-brand">
+    <span class="header-heart">♡</span>
+    <div>
+      <div class="header-names">Alice &amp; Lucas</div>
+      <div class="header-sub" id="hdr-date">30 Juin 2026 · Golden, BC</div>
+    </div>
+  </div>
+  <button id="lang-btn" onclick="toggleLang()">EN</button>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">
+    <span class="ti">📅</span>
+    <span id="tl0">Programme</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab(1)">
+    <span class="ti">💒</span>
+    <span id="tl1">Jour J</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab(2)">
+    <span class="ti">💍</span>
+    <span id="tl2">Cérémonie</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab(3)">
+    <span class="ti">📖</span>
+    <span id="tl3">Livret</span>
+  </button>
+</nav>
+
+<main>
+  <section id="tab-0" class="tab-pane active"></section>
+  <section id="tab-1" class="tab-pane"></section>
+  <section id="tab-2" class="tab-pane"></section>
+  <section id="tab-3" class="tab-pane"></section>
+</main>
+
+<script>
+// ── State ──────────────────────────────────────────────────
+let lang = 'fr';
+let DATA = {};
+
+// ── Type → colour config ───────────────────────────────────
+const T = {
+  mandatory: { c: '#7a3ea3', bg: '#f3eafa' },
+  optional:  { c: '#2e7d4f', bg: '#eaf5ee' },
+  meal:      { c: '#c05c00', bg: '#fff3e8' },
+  photo:     { c: '#3a6ea8', bg: '#e8f0fa' },
+  break:     { c: '#6b7280', bg: '#f3f4f6' },
+  free:      { c: '#6b7280', bg: '#f3f4f6' },
+  travel:    { c: '#5a6e8a', bg: '#eef2f7' },
+  info:      { c: '#c9a030', bg: '#fdf8e8' },
+  warn:      { c: '#b45309', bg: '#fef3c7' },
+  wedding:   { c: '#7a3ea3', bg: '#f3eafa', wed: true },
+  entry:     { c: '#7a3ea3', bg: '#f3eafa' },
+  word:      { c: '#2e7d4f', bg: '#eaf5ee' },
+  speech:    { c: '#c05c00', bg: '#fff3e8' },
+  vows:      { c: '#3a6ea8', bg: '#e8f0fa' },
+  rings:     { c: '#c9a030', bg: '#fdf8e8' },
+  close:     { c: '#7a3ea3', bg: '#f3eafa' },
+};
+function tc(type) { return T[type] || T.break; }
+
+function tx(obj) { return obj ? (obj[lang] || obj.fr || '') : ''; }
+
+// ── Legend ─────────────────────────────────────────────────
+const LEGEND = [
+  { type: 'mandatory', fr: 'Incontournable', en: 'Mandatory' },
+  { type: 'optional',  fr: 'Optionnel',      en: 'Optional'  },
+  { type: 'meal',      fr: 'Repas / Boissons', en: 'Food & Drinks' },
+  { type: 'photo',     fr: 'Photo',           en: 'Photo'    },
+  { type: 'break',     fr: 'Libre / Pause',   en: 'Free / Break' },
+  { type: 'travel',    fr: 'Logistique',      en: 'Logistics' },
+  { type: 'info',      fr: 'Info pratique',   en: 'Info'     },
+];
+function renderLegend() {
+  return `<div class="legend">${LEGEND.map(item => {
+    const cfg = tc(item.type);
+    return `<div class="legend-item">
+      <div class="legend-dot" style="background:${cfg.c}"></div>
+      <span>${item[lang]}</span>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ── Tab 1 — Full Week ──────────────────────────────────────
+function renderWeek() {
+  const cal = DATA.cal;
+  let html = `<div class="tab-title">${tx(cal.title)}</div>
+    <div class="tab-subtitle">${tx(cal.subtitle)}</div>
+    ${renderLegend()}
+    <div class="days-grid">`;
+
+  for (const day of cal.days) {
+    const hl = day.highlight;
+    html += `<div class="day-card${hl ? ' is-highlight' : ''}">
+      <div class="day-header">
+        <div class="day-name">${tx(day.name)}</div>
+        <div class="day-theme">${tx(day.theme)}</div>
+      </div>
+      <div class="day-events">
+        ${day.events.map(ev => renderEventCard(ev)).join('')}
+      </div>
+    </div>`;
+  }
+
+  html += `</div>`;
+
+  // Info box — split by · into items
+  const rawInfo = tx(cal.info_box);
+  const items = rawInfo.split('·').map(s => s.trim()).filter(Boolean);
+  html += `<div class="info-box">
+    <div class="info-box-title">${lang === 'fr' ? 'Infos pratiques' : 'Practical Info'}</div>
+    ${items.map(i => `<div class="info-item">${i}</div>`).join('')}
+  </div>`;
+
+  return html;
+}
+
+function renderEventCard(ev) {
+  const cfg = tc(ev.type);
+  const wed = ev.type === 'wedding';
+  const time = lang === 'fr' ? (ev.time || '') : (ev.time_en || ev.time || '');
+  const desc = ev.desc ? tx(ev.desc) : null;
+  const flag = ev.flag ? tx(ev.flag) : null;
+  return `<div class="event-card${wed ? ' is-wedding' : ''}"
+      style="border-color:${cfg.c}; background:${cfg.bg};">
+    <div class="event-time">${time}</div>
+    <div>
+      <div class="event-title">${tx(ev.title)}</div>
+      ${desc ? `<div class="event-desc">${desc}</div>` : ''}
+      ${flag ? `<div class="event-flag">${flag}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+// ── Tab 2 — Wedding Day ────────────────────────────────────
+function renderWeddingDay() {
+  const wed = DATA.wed;
+  let html = `<div class="tab-title">${tx(wed.title)}</div>
+    <div class="tab-subtitle">${tx(wed.subtitle)}</div>
+    <div class="photo-note">
+      📷 ${lang === 'fr'
+        ? 'Forfait photographe 4h : <strong>17h00 → 21h00</strong> · Photos de préparatifs + cérémonie + cocktail + golden hour'
+        : 'Photographer 4-hour package: <strong>5:00 PM → 9:00 PM</strong> · Prep shots + ceremony + cocktail + golden hour'}
+    </div>
+    ${renderLegend()}`;
+
+  for (const section of wed.sections) {
+    html += `<div class="section-sep">${tx(section.label)}</div>
+      <div class="tl-events">
+        ${section.events.map(ev => renderTimelineEvent(ev)).join('')}
+      </div>`;
+  }
+  return html;
+}
+
+function renderTimelineEvent(ev) {
+  const cfg = tc(ev.type);
+  const wed = ev.type === 'wedding';
+  const time = lang === 'fr' ? (ev.time || '') : (ev.time_en || ev.time || '');
+  const who  = ev.who  ? tx(ev.who)  : null;
+  const desc = ev.desc ? tx(ev.desc) : null;
+  const flag = ev.flag ? tx(ev.flag) : null;
+  const wedStyle = wed ? `border-width:2px; border-left-width:4px; box-shadow:0 2px 12px rgba(122,62,163,0.18);` : '';
+  return `<div class="tl-row">
+    <div class="tl-time">${time}</div>
+    <div class="tl-card${wed ? ' is-wedding' : ''}"
+        style="border-color:${cfg.c}; background:${cfg.bg}; ${wedStyle}">
+      <div class="event-title">${tx(ev.title)}</div>
+      ${who  ? `<div class="event-who">${who}</div>`   : ''}
+      ${desc ? `<div class="event-desc">${desc}</div>` : ''}
+      ${flag ? `<div class="event-flag">${flag}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+// ── Tab 3 — Ceremony ───────────────────────────────────────
+function renderCeremony() {
+  const cer = DATA.cer;
+  // Progress bar
+  const segs = cer.progress_segments;
+  const barHtml = segs.map(s =>
+    `<div class="progress-seg" style="background:${s.color}; width:${s.width};" title="${tx(s.label)}">${tx(s.label)}</div>`
+  ).join('');
+
+  let html = `<div class="tab-title">${tx(cer.title)}</div>
+    <div class="tab-subtitle">${tx(cer.subtitle)}</div>
+    <div class="progress-wrap">
+      <div class="progress-bar">${barHtml}</div>
+    </div>`;
+
+  for (const step of cer.steps) {
+    html += renderStep(step);
+  }
+
+  html += `<div class="ceremony-total">
+    ${tx(cer.total_label)} : ${tx(cer.total_duration)} &nbsp;·&nbsp; ${tx(cer.fit_label)}
+  </div>`;
+
+  return html;
+}
+
+function renderStep(step) {
+  const cfg = tc(step.type);
+  const isHeart = step.num === '♡';
+  const desc = step.desc ? tx(step.desc) : null;
+  const flag = step.flag ? tx(step.flag) : null;
+  const numStyle = isHeart ? '' : `background:${cfg.c}`;
+  const cardClass = `step-body${isHeart ? ' is-heart-card' : ''}`;
+  const cardStyle = `border-color:${cfg.c}; background:${cfg.bg};${isHeart ? ` border-width:2px; border-left-width:4px; box-shadow:0 2px 12px rgba(122,62,163,0.18);` : ''}`;
+  return `<div class="step-row">
+    <div class="step-num${isHeart ? ' is-heart' : ''}" style="${numStyle}">${step.num}</div>
+    <div class="${cardClass}" style="${cardStyle}">
+      <div class="step-head">
+        <div class="step-title">${tx(step.title)}</div>
+        <div class="step-duration" style="color:${cfg.c}">${step.duration}</div>
+      </div>
+      <div class="step-who">${tx(step.who)}</div>
+      ${desc ? `<div class="step-desc">${desc}</div>` : ''}
+      ${flag ? `<div class="step-flag">${flag}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+// ── UI controls ────────────────────────────────────────────
+function switchTab(n) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-pane').forEach((p, i) => p.classList.toggle('active', i === n));
+}
+
+function toggleLang() {
+  lang = lang === 'fr' ? 'en' : 'fr';
+  document.getElementById('lang-btn').textContent = lang === 'fr' ? 'EN' : 'FR';
+  document.documentElement.lang = lang;
+  renderAll();
+}
+
+function renderAll() {
+  document.getElementById('tab-0').innerHTML = renderWeek();
+  document.getElementById('tab-1').innerHTML = renderWeddingDay();
+  document.getElementById('tab-2').innerHTML = renderCeremony();
+  document.getElementById('tab-3').innerHTML = renderHandbook();
+
+  const labels = lang === 'fr'
+    ? ['Programme', 'Jour J', 'Cérémonie', 'Livret']
+    : ['Full Week', 'Wedding Day', 'Ceremony', 'Handbook'];
+  labels.forEach((l, i) => { document.getElementById(`tl${i}`).textContent = l; });
+
+  document.getElementById('hdr-date').textContent =
+    lang === 'fr' ? '30 Juin 2026 · Golden, BC' : 'June 30, 2026 · Golden, BC';
+}
+
+// ── Tab 4 — Handbook ───────────────────────────────────────
+function hbSection(icon, titleFr, titleEn, bodyHtml) {
+  return `<div class="hb-section">
+    <div class="hb-section-header">
+      <span class="hb-icon">${icon}</span>
+      <div class="hb-title">${lang === 'fr' ? titleFr : titleEn}</div>
+    </div>
+    <div class="hb-body">${bodyHtml}</div>
+  </div>`;
+}
+
+function renderHandbook() {
+  const L = lang;
+  let html = `<div class="tab-title">${L === 'fr' ? 'Livret des Invités' : 'Guest Handbook'}</div>
+    <div class="tab-subtitle">${L === 'fr' ? 'Alice & Lucas · Golden, BC · Juin 2026' : 'Alice & Lucas · Golden, BC · June 2026'}</div>`;
+
+  // ── Welcome letter ──
+  html += hbSection('💌',
+    "Un mot d'Alice et Lucas",
+    "A Note from Alice & Lucas",
+    L === 'fr'
+      ? `<div class="hb-welcome">Vous êtes là, et ça compte énormément pour nous.</div>
+         <p class="hb-p">Certains d'entre vous ont voyagé depuis la France, d'autres depuis un coin du Canada, d'autres encore de bien plus loin — mais chacun d'entre vous a fait un effort, et nous ne l'oublions pas. Golden est une ville qui tient une place très spéciale dans nos cœurs, et nous sommes si heureux de la partager avec les personnes que nous aimons le plus.</p>
+         <p class="hb-p">Ce livret est votre guide pour la semaine : le programme, les informations pratiques sur la région, des conseils pour rester en sécurité en montagne, et quelques-uns de nos endroits préférés en ville.</p>
+         <p class="hb-p">Le 30 juin, nous prendrons un téléphérique jusqu'au sommet d'une montagne à 2 347 m d'altitude, et nous nous dirons "oui" avec les Rocheuses canadiennes comme toile de fond. Nous ne pouvions pas imaginer de plus beau cadre, ni de meilleure compagnie.</p>
+         <div class="hb-welcome">Profitez bien. Savourez chaque instant. Avec tout notre amour, Alice & Lucas ♡</div>`
+      : `<div class="hb-welcome">You are here, and that means everything to us.</div>
+         <p class="hb-p">Some of you traveled from France, some from across Canada, some from just around the corner — but every single one of you made an effort, and we don't take that lightly. Golden, BC is a place that holds a very special corner of our hearts, and we couldn't be more excited to share it with the people we love most.</p>
+         <p class="hb-p">This handbook is your companion for the week. It has our schedule, practical info about the area, tips for staying safe in the mountains, and some of our favorite spots in town.</p>
+         <p class="hb-p">On June 30th, we will take a gondola to the top of a mountain at 7,700 feet and say "I do" with the Canadian Rockies as our backdrop. We cannot imagine a more beautiful setting, or better company.</p>
+         <div class="hb-welcome">Profitez bien. Enjoy every moment. With so much love, Alice & Lucas ♡</div>`
+  );
+
+  // ── Wild Wood Cabins ──
+  html += hbSection('🏕️',
+    'Wild Wood Cabins — Votre Base de Vie',
+    'Wild Wood Cabins — Your Home Base',
+    `<table class="hb-table">
+      <tr><td>📍 ${L==='fr'?'Adresse':'Address'}</td><td>676 Lafontaine Rd East, Golden, BC V0A 1H3</td></tr>
+      <tr><td>📞 ${L==='fr'?'Propriétaires':'Owners'}</td><td>Troy & Sherri Stelmach — 250-272-5945</td></tr>
+      <tr><td>🕓 Check-in</td><td>${L==='fr'?'16h00 (27 juin: Bear\'s Den · 28 juin: tous les autres)':'4:00 PM (June 27: Bear\'s Den · June 28: all others)'}</td></tr>
+      <tr><td>🕙 Check-out</td><td>${L==='fr'?'11h00 (3 juil.: plupart · 4 juil.: Bear\'s Den)':'11:00 AM (Jul 3: most · Jul 4: Bear\'s Den)'}</td></tr>
+      <tr><td>📍 ${L==='fr'?'Distance':'Distance'}</td><td>${L==='fr'?'~10 min en voiture du centre-ville':'~10 min drive from downtown Golden'}</td></tr>
+      <tr><td>🔥 ${L==='fr'?'Feux de camp':'Campfires'}</td><td>${L==='fr'?'Emplacements désignés uniquement. Respectez les restrictions en vigueur.':'Designated firepits only. Always check for active fire bans.'}</td></tr>
+    </table>
+    <p class="hb-p" style="margin-top:10px; font-size:12px; color:#6b7280;">
+      ${L==='fr'?'<strong>Vos chalets :</strong> Bear\'s Den · Cougar\'s Cave · Raven\'s Landing · Deer Crossing · Moose\'s Meadow · Trapper\'s Haven · Bungalow A · Bungalow B · Owl\'s Lookout':'<strong>Your cabins:</strong> Bear\'s Den · Cougar\'s Cave · Raven\'s Landing · Deer Crossing · Moose\'s Meadow · Trapper\'s Haven · Bungalow A · Bungalow B · Owl\'s Lookout'}
+    </p>`
+  );
+
+  // ── Eagle's Eye ──
+  html += hbSection('🦅',
+    "Eagle's Eye Restaurant — Le Lieu du Mariage",
+    "Eagle's Eye Restaurant — Wedding Venue",
+    `<table class="hb-table">
+      <tr><td>📍 ${L==='fr'?'Lieu':'Location'}</td><td>${L==='fr'?'Sommet de Kicking Horse Mountain Resort — 2 347 m (7 700 pi)':'Summit of Kicking Horse Mountain Resort — 2,347 m (7,700 ft)'}</td></tr>
+      <tr><td>🚡 ${L==='fr'?'Accès':'Access'}</td><td>${L==='fr'?'Téléphérique depuis la base — embarquement à 17h00 le 30 juin':'Gondola from the base — boarding opens 5:00 PM on June 30'}</td></tr>
+      <tr><td>🎫 ${L==='fr'?'Votre Pass':'Your Pass'}</td><td>${L==='fr'?'Pass Aventure 2 Jours inclus — valable 30 juin + 1 autre jour consécutif':'2-Day Adventure Pass included — valid June 30 + one other consecutive day'}</td></tr>
+      <tr><td>📍 ${L==='fr'?'Adresse Resort':'Resort Address'}</td><td>1500 Kicking Horse Trail, Golden, BC V0A 1H0</td></tr>
+      <tr><td>🎟️ ${L==='fr'?'Hôtel Resort':'Hotel Booking'}</td><td>${L==='fr'?'Code de réservation : <strong>KHMRWED</strong>':'Use booking code: <strong>KHMRWED</strong>'}</td></tr>
+      <tr><td>⛅ ${L==='fr'?'Météo':'Weather'}</td><td>${L==='fr'?'Couches FORTEMENT recommandées — il peut faire frais à 2 347 m !':'Layers STRONGLY recommended — mountain tops are chilly even in June!'}</td></tr>
+    </table>
+    <div class="hb-safety-note" style="margin-top:10px; background:#f3eafa; border-color:#7a3ea3; color:#4a1a7a;">
+      ${L==='fr'?'🚡 Le téléphérique est le seul moyen de monter et descendre. Tous les invités doivent partir avant 00h45. Pas d\'alcool extérieur au resort. Pas de confettis ni de pétales dans la salle.':'🚡 The gondola is the only way up and down. All guests must depart by 12:45 AM. No outside alcohol. No confetti, glitter, or petals inside the venue.'}
+    </div>`
+  );
+
+  // ── Cafes ──
+  const cafes = [
+    { name: 'Ethos Cafe',
+      fr: 'Le favori local, sur la route du Kicking Horse. Café exceptionnel, pain au levain (part vite !), sandwichs de petit-déjeuner incroyables. Allez-y tôt !',
+      en: 'Local favourite just outside downtown on the road to Kicking Horse. Outstanding coffee, sourdough (sells out fast!), incredible breakfast sandwiches. Go early.' },
+    { name: 'Wandering Fern Cafe',
+      fr: 'Cosy, en centre-ville. Café issu du commerce équitable, menu farm-to-table. Idéal pour un matin tranquille.',
+      en: 'Cozy, centrally located downtown. Ethically sourced coffee, farm-to-table menu. Great for a slow morning.' },
+    { name: 'Bluebird Cafe',
+      fr: 'Entre le centre et la montagne. Cafés de spécialité, options à emporter. Options sans gluten.',
+      en: 'Just outside downtown. Specialty coffees, grab-and-go breakfast & lunch. Gluten-free options.' },
+    { name: "Jita's Cafe",
+      fr: 'Vegan-friendly, abordable, excellents currys et wraps. Ouvert lun–sam pour le déjeuner. Centre-ville.',
+      en: 'Vegan-friendly, affordable, great curries and wraps. Open Mon–Sat for breakfast & lunch. Downtown.' },
+  ];
+  html += hbSection('☕',
+    'Cafés & Petit-Déjeuner',
+    'Coffee & Breakfast',
+    cafes.map(c => `<div class="hb-place"><div class="hb-place-name">${c.name}</div><div class="hb-place-desc">${L==='fr'?c.fr:c.en}</div></div>`).join('')
+  );
+
+  // ── Restaurants ──
+  const restaurants = [
+    { name: 'Eleven22',
+      fr: 'Le gastronomique de Golden — cuisine canadienne moderne, vins régionaux. Essayez le canard, la fondue au Stilton ou le plateau de fruits de mer. Happy hour 17h–18h : 3 plats pour 25$.',
+      en: 'The upscale pick — modern Canadian cuisine, local art, regional wines. Try the duck, the fondue, or the seafood platter. Early bird 3-course special 5–6 PM for $25.' },
+    { name: 'Whitetooth Mountain Bistro',
+      fr: 'Casual mais élégant, en plein cœur de Golden. Très apprécié pour tous les repas.',
+      en: 'Casual but elegant, right in the heart of Golden. Very popular for all meals.' },
+    { name: 'Reposados Tacos y Tequila',
+      fr: 'Tacos et burritos mexicains authentiques, carte de margaritas extensive, terrasse. Options sans gluten et vegan.',
+      en: 'Authentic Mexican tacos & burritos, extensive margarita menu, patio seating. Gluten-free & plant-based options.' },
+    { name: "The Wolf's Den",
+      fr: "Cuisine de pub classique, steaks, ambiance locale. Idéal pour un dîner décontracté.",
+      en: 'Classic pub food, great steaks, local feel. Perfect for a relaxed evening meal.' },
+    { name: 'Whitetooth Brewing 🍺',
+      fr: 'La brasserie préférée d\'Alice & Lucas ! Bières artisanales, bonne bouffe, ambiance décontractée.',
+      en: "Alice & Lucas's favourite brewery! Craft beers, good food, relaxed vibes." },
+    { name: 'Nagomi Sushi',
+      fr: 'Excellents sushis japonais. Principalement à emporter mais vaut le détour.',
+      en: 'Highly rated Japanese spot. Mostly takeout but worth it.' },
+  ];
+  html += hbSection('🍽️',
+    'Restaurants & Dîner',
+    'Restaurants & Dinner',
+    restaurants.map(c => `<div class="hb-place"><div class="hb-place-name">${c.name}</div><div class="hb-place-desc">${L==='fr'?c.fr:c.en}</div></div>`).join('')
+  );
+
+  // ── Groceries ──
+  html += hbSection('🛒',
+    'Épiceries & Essentiels',
+    'Groceries & Essentials',
+    `<table class="hb-table">
+      <tr><td>Save-On-Foods</td><td>${L==='fr'?'Principal supermarché. 📍 1020 10th Ave South. ~8h–21h.':'Main supermarket. 📍 1020 10th Ave South. ~8 AM–9 PM.'}</td></tr>
+      <tr><td>IGA Golden</td><td>${L==='fr'?'Supermarché avec pharmacie. 📍 624 9th Ave North. Ouvert jusqu\'à 23h.':'Supermarket with pharmacy. 📍 624 9th Ave North. Open until 11 PM.'}</td></tr>
+      <tr><td>Kicking Horse General Store</td><td>${L==='fr'?'Au resort — snacks, basiques, souvenirs, bière.':'At the resort — snacks, basics, souvenirs, beer.'}</td></tr>
+      <tr><td>Red Lion Cold Beer & Wine</td><td>${L==='fr'?'Meilleur choix d\'alcool et meilleurs prix en ville.':'Best alcohol selection and prices in town.'}</td></tr>
+      <tr><td>${L==='fr'?'Essence':'Gas'}</td><td>${L==='fr'?'Faites le plein à Golden avant de prendre la montagne. Station Nicholson (sud) souvent moins chère.':'Fill up in Golden before heading into the mountains. Nicholson station (south) is often cheaper.'}</td></tr>
+      <tr><td>${L==='fr'?'Pharmacie':'Pharmacy'}</td><td>${L==='fr'?'À l\'IGA. Hôpital : Golden & District General, 835 9th Ave South.':'At IGA. Hospital: Golden & District General, 835 9th Ave South.'}</td></tr>
+    </table>`
+  );
+
+  // ── Activities ──
+  const actsFr = [
+    '🚡 <strong>Kicking Horse Resort</strong> — Utilisez votre Pass Aventure 2 Jours ! VTT, randonnée, observation de la faune depuis le gondola.',
+    '🌊 <strong>Rafting Kicking Horse River</strong> — Rapides de classe mondiale au cœur de Golden. Plusieurs opérateurs proposent des sorties guidées.',
+    '🌉 <strong>Golden Skybridge</strong> — Les ponts suspendus les plus hauts du Canada, juste au sud de la ville. Vues spectaculaires !',
+    '🏞️ <strong>Parc national Yoho</strong> — 45 min à l\'ouest. Lac Émeraude, Chutes Takakkaw, Burgess Shale. Incontournable !',
+    '🐻 <strong>Boo le grizzly</strong> — Au sommet de Kicking Horse : visite de Boo le grizzly rescapé. Adorable et unique !',
+    '🏔️ <strong>Banff</strong> — Environ 2h à l\'est pour ceux qui souhaitent prolonger l\'aventure.',
+    '🇨🇦 <strong>Fête du Canada (1er juillet)</strong> — Jour férié national avec célébrations en ville, feux d\'artifice, animations communautaires. À ne pas manquer !',
+    '🚣 <strong>Canot Lac Émeraude</strong> — Alice & Lucas vous invitent à pagayer sur ce lac turquoise à couper le souffle à Yoho (45 min).',
+  ];
+  const actsEn = [
+    '🚡 <strong>Kicking Horse Resort</strong> — Use your 2-Day Adventure Pass! Mountain biking, hiking, wildlife watching from the gondola.',
+    '🌊 <strong>Kicking Horse River Rafting</strong> — World-class whitewater right in town. Multiple operators offer guided trips.',
+    '🌉 <strong>Golden Skybridge</strong> — Canada\'s highest suspension bridges, just south of town. Stunning views!',
+    '🏞️ <strong>Yoho National Park</strong> — 45 min west. Takakkaw Falls, Emerald Lake, Burgess Shale. Unmissable!',
+    '🐻 <strong>Boo the Grizzly</strong> — At the Kicking Horse summit: visit Boo the rescued grizzly bear. Unique experience!',
+    '🏔️ <strong>Banff</strong> — Approx. 2 hours east, for those who want to extend the adventure.',
+    '🇨🇦 <strong>Canada Day (July 1)</strong> — National holiday with celebrations in town, fireworks, community events. Don\'t miss it!',
+    '🚣 <strong>Canoe Emerald Lake</strong> — Join Alice & Lucas for paddling on this breathtaking turquoise lake in Yoho (45 min).',
+  ];
+  html += hbSection('🏔️',
+    'Activités dans la Région',
+    'Things to Do',
+    `<ul class="hb-list">${(L==='fr'?actsFr:actsEn).map(a=>`<li>${a}</li>`).join('')}</ul>`
+  );
+
+  // ── Bear safety ──
+  const bearsFr = [
+    'Faites du bruit en randonnée — parlez, tapez dans vos mains, criez "Hey bear !" surtout près des cours d\'eau.',
+    'Randonnez en groupe de 3 ou plus. Ne randonnez jamais seul en territoire à ours.',
+    'Portez un spray anti-ours et sachez l\'utiliser — plus efficace qu\'une arme à courte distance. Disponible en ville.',
+    'Ne nourrissez jamais un ours. Ne vous en approchez pas, même s\'il semble calme.',
+    'Si un ours charge : tenez votre position (la plupart des charges sont des bluffs), puis utilisez le spray quand il est à moins de 6 m.',
+    'Signaler un ours : Service de conservation de la CB : 1-877-952-7277',
+  ];
+  const bearsEn = [
+    'Make noise while hiking — talk, clap, call out "Hey bear!" especially near streams or dense brush.',
+    'Hike in groups of 3 or more. Never hike alone in bear country.',
+    'Carry bear spray and know how to use it — more effective than a firearm at close range. Available at local stores.',
+    'Never approach or feed a bear — even if they seem calm, they are wild and unpredictable.',
+    'If a bear charges: stand your ground (most charges are bluffs), then use bear spray when within 20 feet.',
+    'Bear sighting? Report to BC Conservation Officer Service: 1-877-952-7277',
+  ];
+  html += hbSection('🐻',
+    'Sécurité Ours',
+    'Bear Safety',
+    `<p class="hb-p" style="font-size:12px; color:#6b7280;">${L==='fr'?'Les ours noirs et les grizzlys sont présents dans la région de Golden. Voici comment coexister en sécurité :':'Black bears and grizzly bears are both present in the Golden area. Here\'s how to coexist safely:'}</p>
+     <ul class="hb-list">${(L==='fr'?bearsFr:bearsEn).map(a=>`<li>${a}</li>`).join('')}</ul>`
+  );
+
+  // ── Wildfire & Mountain safety ──
+  const fireFr = [
+    'Vérifiez les conditions avant toute activité en plein air : <strong>bcwildfire.ca</strong> ou 1-800-663-5555.',
+    'Les restrictions de feux de camp sont fréquentes en été — vérifiez toujours avant d\'allumer un feu au QG.',
+    'Si vous voyez de la fumée ou un incendie : appelez le 911 immédiatement.',
+    'Habillez-vous en couches — la météo en montagne change rapidement. Même en juin, il peut faire froid en altitude.',
+    'Restez sur les sentiers balisés. N\'entrez pas dans les zones hors-pistes au resort.',
+    'Protection solaire indispensable en altitude — UV beaucoup plus intenses. Crème solaire, chapeau, lunettes.',
+    'Hydratez-vous bien — altitude + air sec de montagne = risque de déshydratation.',
+  ];
+  const fireEn = [
+    'Check current fire conditions before outdoor activities: <strong>bcwildfire.ca</strong> or 1-800-663-5555.',
+    'Fire bans are common in summer — always check before lighting any fire at the cabins.',
+    'If you see smoke or a fire: call 911 immediately.',
+    'Dress in layers — mountain weather changes rapidly. Even in June, temps can drop significantly at altitude.',
+    'Stay on marked trails. Don\'t cross ropes or enter out-of-bounds areas at the resort.',
+    'Sun protection is essential at altitude — UV exposure is much higher. Sunscreen, hat, and sunglasses are a must.',
+    'Drink plenty of water — altitude + dry mountain air = dehydration risk.',
+  ];
+  html += hbSection('🔥',
+    'Sécurité Feux & Montagne',
+    'Wildfire & Mountain Safety',
+    `<ul class="hb-list">${(L==='fr'?fireFr:fireEn).map(a=>`<li>${a}</li>`).join('')}</ul>`
+  );
+
+  // ── Emergency contacts ──
+  const contacts = [
+    { label: L==='fr'?'Urgences':'Emergency',        value: '911' },
+    { label: 'RCMP Golden',                           value: '250-344-2221' },
+    { label: L==='fr'?'Hôpital Golden':'Golden Hospital', value: '250-344-5271' },
+    { label: L==='fr'?'Faune sauvage (CB)':'BC Conservation', value: '1-877-952-7277' },
+    { label: L==='fr'?'Feux de forêt CB':'BC Wildfire',  value: '1-800-663-5555' },
+    { label: 'Kicking Horse Resort',                  value: '250-439-5537' },
+    { label: L==='fr'?'Wild Wood Cabins (Troy & Sherri)':'Wild Wood Cabins (Troy & Sherri)', value: '250-272-5945' },
+  ];
+  html += hbSection('🚨',
+    'Contacts d\'Urgence',
+    'Emergency Contacts',
+    `<div class="hb-contacts">${contacts.map(c=>`<div class="hb-contact-card"><div class="hb-contact-label">${c.label}</div><div class="hb-contact-value">${c.value}</div></div>`).join('')}</div>`
+  );
+
+  // ── Practical info ──
+  html += hbSection('📱',
+    'Infos Pratiques',
+    'Practical Information',
+    `<table class="hb-table">
+      <tr><td>${L==='fr'?'Réseau mobile':'Cell Service'}</td><td>${L==='fr'?'Bon à Golden et au resort. Couverture limitée sur certaines routes de montagne.':'Generally good in Golden and at the resort. Coverage may be spotty on some mountain roads.'}</td></tr>
+      <tr><td>${L==='fr'?'Voiture':'Getting Around'}</td><td>${L==='fr'?'Une voiture est fortement recommandée. QG à ~10 min du centre-ville. Resort à ~15–20 min.':'A car is highly recommended. Cabins ~10 min from town. Resort ~15–20 min from downtown.'}</td></tr>
+      <tr><td>${L==='fr'?'Conduite':'Driving'}</td><td>${L==='fr'?'On roule à droite. Limites en km/h. Attention à la faune sur les routes à l\'aube et au crépuscule.':'Drive on the right. Speed limits in km/h. Watch for wildlife especially at dawn and dusk.'}</td></tr>
+      <tr><td>${L==='fr'?'Monnaie':'Currency'}</td><td>${L==='fr'?'Dollar canadien (CAD). Cartes acceptées partout. DAB en centre-ville.':'Canadian dollars (CAD). All major credit cards accepted. ATMs available downtown.'}</td></tr>
+      <tr><td>${L==='fr'?'Fuseau horaire':'Time Zone'}</td><td>${L==='fr'?'Heure des Rocheuses (MT) — comme Calgary. UTC-7 en été.':'Mountain Time (MT) — same as Calgary. UTC−7 in summer.'}</td></tr>
+      <tr><td>${L==='fr'?'Alcool':'Alcohol'}</td><td>${L==='fr'?'19 ans minimum en CB. Pièce d\'identité officielle obligatoire au bar de la réception. Aucune exception !':'19+ in BC. Valid government-issued ID required at the wedding bar. No exceptions!'}</td></tr>
+    </table>
+    <div class="hb-safety-note" style="margin-top:10px;">
+      ${L==='fr'?'🧥 Pour la soirée du 30 juin au sommet (2 347 m) : prévoyez une veste ! Il peut faire frais même en été en altitude.':'🧥 For the wedding night at the summit (7,700 ft): bring a jacket! Mountain tops can be chilly even in summer.'}
+    </div>`
+  );
+
+  return html;
+}
+
+// ── Data loading ───────────────────────────────────────────
+async function init() {
+  try {
+    const [cal, wed, cer] = await Promise.all([
+      fetch('content/calendar_5days.json').then(r => { if (!r.ok) throw r; return r.json(); }),
+      fetch('content/wedding_day.json').then(r => { if (!r.ok) throw r; return r.json(); }),
+      fetch('content/ceremony.json').then(r => { if (!r.ok) throw r; return r.json(); }),
+    ]);
+    DATA = { cal, wed, cer };
+  } catch (_) {
+    DATA = { cal: CAL, wed: WED, cer: CER };
+  }
+  renderAll();
+}
+
+// ── Embedded fallback data ─────────────────────────────────
+const CAL = {"title":{"fr":"Alice & Lucas — Programme de la Semaine","en":"Alice & Lucas — Full Week Schedule"},"subtitle":{"fr":"Golden, BC · 28 Juin – 3 Juillet 2026","en":"Golden, BC · June 28 – July 3, 2026"},"legend":{"mandatory":{"fr":"Incontournable","en":"Mandatory"},"optional":{"fr":"Optionnel","en":"Optional"},"meal":{"fr":"Repas / Boissons","en":"Food & Drinks"},"travel":{"fr":"Voyage / Logistique","en":"Travel / Logistics"},"info":{"fr":"Info pratique","en":"Practical Info"},"break":{"fr":"Libre / Pause","en":"Free / Break"}},"days":[{"id":"jun28","name":{"fr":"Dimanche 28 Juin","en":"Sunday June 28"},"short":{"fr":"28 Juin","en":"Jun 28"},"theme":{"fr":"Bienvenue au QG !","en":"Welcome to HQ!"},"events":[{"time":"","time_en":"","type":"travel","title":{"fr":"Arrivées","en":"Arrivals"},"desc":{"fr":"Rejoignez Golden à votre rythme. QG: 780 Lafontaine Road.","en":"Make your way to Golden. HQ: 780 Lafontaine Road."}},{"time":"16h00","time_en":"4:00 PM","type":"info","title":{"fr":"Check-in chalets","en":"Cabin check-in"},"desc":{"fr":"Ouverture de tous les chalets Wild Wood Cabins.","en":"All Wild Wood Cabins open."}},{"time":"17h00","time_en":"5:00 PM","type":"mandatory","title":{"fr":"Pot de Bienvenue / Apéro","en":"Welcome Apéro"},"desc":{"fr":"Retrouvailles au QG ! Apéritifs et retrouvailles.","en":"First hellos at HQ! Drinks and mingling."}},{"time":"~18h30","time_en":"~6:30 PM","type":"meal","title":{"fr":"BBQ de Bienvenue / Dîner","en":"Welcome BBQ Dinner"},"desc":{"fr":"Dîner BBQ ensemble au QG.","en":"BBQ dinner together at HQ."}},{"time":"Soirée","time_en":"Evening","type":"break","title":{"fr":"Feu de camp & jacuzzis","en":"Campfire & hot tubs"},"desc":{"fr":"Soirée libre au QG.","en":"Free evening at HQ."}}]},{"id":"jun29","name":{"fr":"Lundi 29 Juin","en":"Monday June 29"},"short":{"fr":"29 Juin","en":"Jun 29"},"theme":{"fr":"Olympiades de l'Amour !","en":"Love Olympics!"},"events":[{"time":"08h–09h30","time_en":"8–9:30 AM","type":"break","title":{"fr":"Petit-déjeuner libre","en":"Free breakfast"},"desc":{"fr":"Café à Ethos ou Wandering Fern, ou cuisine au chalet.","en":"Grab coffee at Ethos or Wandering Fern, or cook at the cabin."}},{"time":"10h00","time_en":"10:00 AM","type":"mandatory","title":{"fr":"Olympiades de l'Amour — Début !","en":"Love Olympics — Start!"},"desc":{"fr":"Jeux canadiens en équipe : lancer de haches, défis en plein air. Habillez-vous confortablement !","en":"Canadian team games: axe throwing, outdoor challenges. Wear clothes you can move in!"}},{"time":"~12h30","time_en":"~12:30 PM","type":"meal","title":{"fr":"Déjeuner BBQ","en":"BBQ Lunch"},"desc":{"fr":"Pause déjeuner en plein air — les jeux reprennent après !","en":"Outdoor lunch break — games resume after!"}},{"time":"13h30–17h","time_en":"1:30–5 PM","type":"mandatory","title":{"fr":"Olympiades — Suite & Finale","en":"Love Olympics — Final rounds"},"desc":{"fr":"Épreuves finales, classement et remise des médailles.","en":"Final challenges, rankings and medal ceremony!"}},{"time":"~17h00","time_en":"~5:00 PM","type":"meal","title":{"fr":"Gâteau & Goûter","en":"Cake & Snack Break"},"desc":{"fr":"Pause sucrée pour célébrer les champions !","en":"Sweet break to celebrate the champions!"}},{"time":"17h30–19h","time_en":"5:30–7 PM","type":"break","title":{"fr":"Repos — jacuzzis & douche","en":"Break — hot tubs & freshen up"},"desc":{"fr":"Décompression avant le dîner.","en":"Relax and freshen up before dinner."}},{"time":"~18h30","time_en":"~6:30 PM","type":"mandatory","title":{"fr":"Répétition de cérémonie","en":"Ceremony rehearsal"},"desc":{"fr":"Au QG avec Alaina Lorriman. Durée ~45–60 min. Inclut tout le cortège.","en":"At HQ with Alaina Lorriman. ~45–60 min. Full wedding party included."}},{"time":"~19h30","time_en":"~7:30 PM","type":"meal","title":{"fr":"Dîner ensemble","en":"Dinner together"},"desc":{"fr":"Dîner de répétition au QG ou restaurant. À confirmer.","en":"Rehearsal dinner at HQ or restaurant. TBC."}},{"time":"Soirée","time_en":"Evening","type":"break","title":{"fr":"Feu de camp — dernière nuit avant le grand jour !","en":"Campfire — last night before the big day!"},"desc":{"fr":"Feu de camp, jacuzzis, soirée libre.","en":"Campfire, hot tubs, free evening."}}]},{"id":"jun30","name":{"fr":"Mardi 30 Juin — LE GRAND JOUR","en":"Tuesday June 30 — THE BIG DAY"},"short":{"fr":"30 Juin ★","en":"Jun 30 ★"},"theme":{"fr":"Jour du Mariage / Wedding Day 💒","en":"Wedding Day 💒"},"highlight":true,"events":[{"time":"Matin","time_en":"Morning","type":"break","title":{"fr":"Matinée libre","en":"Free morning"},"desc":{"fr":"Petit-déjeuner tranquille, repos.","en":"Relaxed breakfast, rest up."}},{"time":"~13h","time_en":"~1 PM","type":"meal","title":{"fr":"Déjeuner libre","en":"Lunch — on your own"},"desc":{"fr":"Chacun mange à sa guise en ville ou au chalet.","en":"Everyone finds their own lunch in town or at the cabin."}},{"time":"16h45","time_en":"4:45 PM","type":"mandatory","title":{"fr":"Départ vers Kicking Horse Resort","en":"Head to Kicking Horse Resort"},"desc":{"fr":"~15 min de route. Être au pied du gondola avant 17h.","en":"~15 min drive. Everyone at the gondola base by 5 PM."}},{"time":"17h00","time_en":"5:00 PM","type":"mandatory","title":{"fr":"Embarquement gondola","en":"Gondola boarding"},"desc":{"fr":"Montée au sommet — 2 347 m d'altitude. ~10 min de trajet.","en":"Up to the summit — 7,700 ft. ~10 min ride."}},{"time":"17h30","time_en":"5:30 PM","type":"wedding","title":{"fr":"CÉRÉMONIE 💒","en":"CEREMONY 💒"},"desc":{"fr":"En plein air face aux Rocheuses. ~30 minutes.","en":"Outdoor ceremony facing the Rockies. ~30 minutes."}},{"time":"~18h00","time_en":"~6:00 PM","type":"meal","title":{"fr":"Cocktail & champagne","en":"Cocktail & champagne"},"desc":{"fr":"Cocktail démarre juste après la cérémonie. Photos de groupe en parallèle.","en":"Cocktail starts right after the ceremony. Group photos happen in parallel."}},{"time":"19h30","time_en":"7:30 PM","type":"meal","title":{"fr":"Dîner assis / Seated dinner","en":"Seated dinner"},"desc":{"fr":"Dîner de gala au restaurant Eagle's Eye. Discours pendant le dîner.","en":"Gala dinner at Eagle's Eye Restaurant. Speeches during dinner."}},{"time":"20h15","time_en":"8:15 PM","type":"mandatory","title":{"fr":"Photos golden hour — Couple","en":"Golden hour photos — Couple"},"desc":{"fr":"20h15–20h45. Les invités continuent de dîner.","en":"8:15–8:45 PM. Guests continue dining."}},{"time":"21h00","time_en":"9:00 PM","type":"mandatory","title":{"fr":"Première danse & soirée dansante !","en":"First dance & party!"},"desc":{"fr":"Jusqu'à minuit. Bar ferme 00h15, gondola descente avant 00h45.","en":"Until midnight. Bar closes 12:15 AM, gondola down by 12:45 AM."}},{"time":"~01h00","time_en":"~1:00 AM","type":"optional","title":{"fr":"After-party au QG","en":"After-party at HQ"},"desc":{"fr":"Pour les courageux — feu de camp & jacuzzis.","en":"For the brave ones — campfire & hot tubs."}}]},{"id":"jul1","name":{"fr":"Mercredi 1er Juillet — Fête du Canada","en":"Wednesday July 1 — Canada Day"},"short":{"fr":"1er Juil. 🇨🇦","en":"Jul 1 🇨🇦"},"theme":{"fr":"Canada Day & Boo le grizzly !","en":"Canada Day & Boo the grizzly!"},"events":[{"time":"Matin","time_en":"Morning","type":"break","title":{"fr":"Grasse matinée bien méritée","en":"Well-deserved sleep in"},"desc":{"fr":"Repos après la grande soirée.","en":"Rest up after the big night."}},{"time":"","time_en":"","type":"info","title":{"fr":"Parcs nationaux gratuits aujourd'hui !","en":"Free national park entry today!"},"desc":{"fr":"Le 1er juillet, entrée gratuite dans tous les parcs nationaux. Yoho, Banff…","en":"July 1st = free admission to all national parks. Yoho, Banff…"}},{"time":"~12h00","time_en":"~Noon","type":"optional","title":{"fr":"Téléphérique + Visite de Boo le grizzly","en":"Gondola + Visit Boo the grizzly"},"desc":{"fr":"2ème jour du forfait ! Montée en téléphérique, visite de Boo le grizzly rescapé, marche sur la crête (~1h, sans dénivelé).","en":"Day 2 of your gondola pass! Visit Boo the rescued grizzly, then a flat ridgeline walk (~1hr)."}},{"time":"~13h30","time_en":"~1:30 PM","type":"meal","title":{"fr":"Déjeuner libre","en":"Lunch on your own"},"desc":{"fr":"Pique-nique au sommet, restaurant en ville, ou chalet.","en":"Picnic at the summit, restaurant in town, or cabin."}},{"time":"Après-midi","time_en":"Afternoon","type":"optional","title":{"fr":"Parcs nationaux — Yoho ou Banff","en":"National Parks — Yoho or Banff"},"desc":{"fr":"Lac Émeraude, Chutes Takakkaw, Lac Louise — entrée gratuite !","en":"Emerald Lake, Takakkaw Falls, Lake Louise — free entry!"}},{"time":"18h00","time_en":"6:00 PM","type":"optional","title":{"fr":"Whitetooth Brewing — Trinquons !","en":"Whitetooth Brewing — Cheers!"},"desc":{"fr":"La brasserie préférée d'Alice & Lucas. Dîner et bières pour fêter le Canada Day.","en":"Alice & Lucas's favourite brewery. Dinner and beers for Canada Day."}}]},{"id":"jul2","name":{"fr":"Jeudi 2 Juillet","en":"Thursday July 2"},"short":{"fr":"2 Juil.","en":"Jul 2"},"theme":{"fr":"Aventure & Dernier soir","en":"Adventure & Last evening"},"events":[{"time":"08h–10h","time_en":"8–10 AM","type":"break","title":{"fr":"Petit-déjeuner libre","en":"Free breakfast"},"desc":{"fr":"Café au chalet ou en ville.","en":"Coffee at the cabin or in town."}},{"time":"10h–14h","time_en":"10 AM–2 PM","type":"optional","title":{"fr":"Canot Lac Émeraude / Canoe Emerald Lake","en":"Canoe Emerald Lake"},"desc":{"fr":"Alice & Lucas vous invitent à Yoho (45 min). Pagayez sur le Lac Émeraude !","en":"Join Alice & Lucas at Yoho (45 min). Paddle the turquoise Emerald Lake!"}},{"time":"Journée","time_en":"Daytime","type":"optional","title":{"fr":"Autres activités","en":"Other options"},"desc":{"fr":"VTT Kicking Horse, sources Radium (1h sud), golf Golden Golf Club, ou repos au jacuzzi.","en":"Mountain biking, Radium Hot Springs (1hr south), golf, or just relax."}},{"time":"~13h","time_en":"~1 PM","type":"meal","title":{"fr":"Déjeuner libre","en":"Lunch on your own"},"desc":{"fr":"Pique-nique au lac, restaurant, ou retour au QG.","en":"Picnic at the lake, restaurant, or back at HQ."}},{"time":"16h–18h30","time_en":"4–6:30 PM","type":"break","title":{"fr":"Retour au QG — repos & jacuzzis","en":"Return to HQ — rest & hot tubs"},"desc":{"fr":"Temps libre, faire les valises pour certains.","en":"Free time, start packing for some."}},{"time":"19h00","time_en":"7:00 PM","type":"optional","title":{"fr":"Dernier dîner ensemble au QG","en":"Last dinner together at HQ"},"desc":{"fr":"BBQ final. On finit comme on a commencé — en famille !","en":"Final BBQ. We end as we began — together!"}},{"time":"Soirée","time_en":"Evening","type":"break","title":{"fr":"Dernier feu de camp ♡","en":"Last campfire ♡"},"desc":{"fr":"Étoiles, jacuzzis, souvenirs — la dernière nuit tous ensemble.","en":"Stars, hot tubs, memories — the last night all together."}}]},{"id":"jul3","name":{"fr":"Vendredi 3 Juillet — Au revoir !","en":"Friday July 3 — Goodbye!"},"short":{"fr":"3 Juil.","en":"Jul 3"},"theme":{"fr":"Bon voyage ! À bientôt.","en":"Safe travels! See you soon."},"events":[{"time":"Matin","time_en":"Morning","type":"break","title":{"fr":"Dernier café & adieux","en":"Last coffee & goodbyes"},"desc":{"fr":"Un dernier café, les adieux, les photos de groupe.","en":"One last coffee, goodbyes, group photos."}},{"time":"Avant 11h","time_en":"By 11 AM","type":"info","title":{"fr":"Check-out chalets","en":"Cabin checkout"},"desc":{"fr":"Départ de tous les chalets avant 11h. Bear's Den reste jusqu'au 4 juillet.","en":"All cabins check out by 11 AM. Bear's Den stays until July 4."}},{"time":"Après","time_en":"After","type":"optional","title":{"fr":"La suite de l'aventure !","en":"The adventure continues!"},"desc":{"fr":"Road trip Rocheuses, Banff–Jasper, Vancouver, Île de Vancouver, Coupe du Monde FIFA…","en":"Rockies road trip, Banff–Jasper, Vancouver, Vancouver Island, FIFA World Cup…"}}]}],"info_box":{"fr":"QG (Chalets) : 780 Lafontaine Road, Golden BC — ~10 min centre-ville. GPS peut ne pas fonctionner, suivez les panneaux ! · Forfait gondola : valable 30 juin + 1er juillet uniquement · Whitetooth Brewing : Centre-ville Golden · ID obligatoire pour l'alcool (19+ en CB) · Veste obligatoire le soir du 30 juin — 2 347 m d'altitude !","en":"HQ (Cabins): 780 Lafontaine Road, Golden BC — ~10 min from downtown. GPS may not work — follow the signs! · Gondola pass: valid June 30 + July 1 only · Whitetooth Brewing: Downtown Golden · Valid ID required for alcohol (19+ in BC) · Bring a jacket on June 30 — 7,700 ft altitude!"}};
+
+const WED = {"title":{"fr":"Alice & Lucas — Jour du Mariage","en":"Alice & Lucas — Wedding Day"},"subtitle":{"fr":"30 Juin 2026 · Planning Complet","en":"June 30, 2026 · Full Timeline"},"sections":[{"id":"morning","label":{"fr":"Matin","en":"Morning"},"events":[{"time":"Matin","time_en":"Morning","type":"free","title":{"fr":"Petit-déjeuner & matinée libre","en":"Breakfast & free morning"},"who":{"fr":"Alice & Lucas + tous les invités","en":"Alice & Lucas + all guests"},"desc":{"fr":null,"en":null}},{"time":"~13h","time_en":"~1 PM","type":"meal","title":{"fr":"Déjeuner libre","en":"Lunch — on your own"},"who":{"fr":"Chacun — restaurant en ville ou chalet","en":"Everyone — restaurant in town or at the cabin"},"desc":{"fr":null,"en":null}}]},{"id":"afternoon","label":{"fr":"Après-midi · Préparatifs","en":"Afternoon · Getting Ready"},"events":[{"time":"14h00","time_en":"2:00 PM","type":"mandatory","title":{"fr":"Alice — getting ready dans la suite Eagle's Eye","en":"Alice — getting ready in the Eagle's Eye suite"},"who":{"fr":"Alice + demoiselles d'honneur","en":"Alice + bridesmaids"},"desc":{"fr":"Coiffure, maquillage, robe directement dans la suite au sommet.","en":"Hair, makeup, dress — in the Eagle's Eye suite at the summit."},"flag":{"fr":"⚠️ Pour Alice : l'accès gondola officiel est à 15h30 per le contrat KHMR. Confirmer avec KHMR qu'Alice peut monter dès 14h en tant que cliente.","en":"⚠️ For Alice: official gondola access per KHMR contract is 3:30 PM. Confirm with KHMR that Alice can go up at 2 PM as the client."}},{"time":"14h30","time_en":"2:30 PM","type":"free","title":{"fr":"Lucas & témoins — getting ready au chalet","en":"Lucas & best men — getting ready at the cabin"},"who":{"fr":"Lucas + témoins (Chris, etc.)","en":"Lucas + best men (Chris, etc.)"},"desc":{"fr":null,"en":null}},{"time":"15h15","time_en":"3:15 PM","type":"photo","title":{"fr":"Photographe monte au sommet","en":"Photographer heads up to the summit"},"who":{"fr":"Photographe","en":"Photographer"},"desc":{"fr":"Monte avec les prestataires. Forfait 4h démarre à 17h — doit être en place avant pour les préparatifs d'Alice.","en":"Goes up with vendors. 4-hour package starts at 5 PM — needs to be in place early for Alice's prep shots."},"flag":{"fr":"⚠️ Coordonner avec le photographe — accès gondola avant 15h30 avec les prestataires.","en":"⚠️ Coordinate with photographer — gondola access before 3:30 PM with vendors."}},{"time":"15h30","time_en":"3:30 PM","type":"warn","title":{"fr":"Décorateurs & prestataires — accès gondola officiel","en":"Decorators & vendors — official gondola access"},"who":{"fr":"Décorateurs (max 4 per contrat KHMR) + prestataires","en":"Decorators (max 4 per KHMR contract) + vendors"},"desc":{"fr":"Heure d'accès officielle. Décor doit être prêt avant 17h.","en":"Official access time per contract. Decor must be ready before 5 PM."}},{"time":"16h45","time_en":"4:45 PM","type":"mandatory","title":{"fr":"Départ des invités vers Kicking Horse Resort","en":"Guests head to Kicking Horse Resort"},"who":{"fr":"Tous les invités + Lucas + témoins","en":"All guests + Lucas + best men"},"desc":{"fr":"~15 min de route depuis le QG. Être au pied du gondola à 17h00.","en":"~15 min drive from HQ. Everyone at the gondola base by 5:00 PM."}}]},{"id":"ceremony","label":{"fr":"Cérémonie","en":"Ceremony"},"events":[{"time":"17h00","time_en":"5:00 PM","type":"mandatory","title":{"fr":"Embarquement gondola — tous les invités","en":"Gondola boarding — all guests"},"who":{"fr":"~60 invités + Lucas + témoins","en":"~60 guests + Lucas + best men"},"desc":{"fr":"60 personnes — gondola continu, tout le monde en haut en ~10 min.","en":"60 people — continuous gondola, everyone up in ~10 min."}},{"time":"17h00","time_en":"5:00 PM","type":"photo","title":{"fr":"Photos finales préparatifs — Alice","en":"Final prep shots — Alice"},"who":{"fr":"Alice + Photographe · Début du forfait 4h (17h → 21h)","en":"Alice + Photographer · 4-hour package starts (5 PM → 9 PM)"},"desc":{"fr":"Le photographe capture les derniers préparatifs dans la suite pendant que les invités montent.","en":"Photographer captures final prep in the suite while guests ride up."}},{"time":"17h30","time_en":"5:30 PM","type":"wedding","title":{"fr":"CÉRÉMONIE — Alice & Lucas se disent OUI !","en":"CEREMONY — Alice & Lucas say I do!"},"who":{"fr":"Officiant: Alaina Lorriman · MC: Anne-Laure","en":"Officiant: Alaina Lorriman · MC: Anne-Laure"},"desc":{"fr":"Cortège (5 couples, 3 min) → Lucas + maman (30 sec) → Alice (2 min) → Anne-Laure intro → Alaina → Parents Lucas (3 min) → Vœux → Zoa & Chris (alliances) → Prononciation. Durée totale : ~30 min.","en":"Wedding party (5 couples, 3 min) → Lucas + mom (30 sec) → Alice (2 min) → Anne-Laure intro → Alaina → Lucas's parents (3 min) → Vows → Zoa & Chris (rings) → Pronouncement. Total: ~30 min."}}]},{"id":"evening","label":{"fr":"Soirée","en":"Evening"},"events":[{"time":"~18h00","time_en":"~6:00 PM","type":"meal","title":{"fr":"Cocktail & champagne","en":"Cocktail & champagne"},"who":{"fr":"Tous les invités · ~90 min","en":"All guests · ~90 min"},"desc":{"fr":"Démarre juste après la cérémonie. Photos de groupe et cocktail en parallèle — photo zone à ~15m du cocktail.","en":"Starts right after the ceremony. Group photos and cocktail happen in parallel — photo area ~15m from cocktail."}},{"time":"18h00","time_en":"6:00 PM","type":"photo","title":{"fr":"Photos de groupe — famille & wedding party","en":"Group photos — family & wedding party"},"who":{"fr":"Famille + 10 membres du wedding party + couple · ~35 min","en":"Family + 10 wedding party members + couple · ~35 min"},"desc":{"fr":"Prévoir une shot list avec le photographe pour rester dans les temps.","en":"Prepare a shot list with the photographer to stay on time."}},{"time":"19h30","time_en":"7:30 PM","type":"meal","title":{"fr":"Dîner assis / Seated dinner","en":"Seated dinner"},"who":{"fr":"Tous · Restaurant Eagle's Eye","en":"Everyone · Eagle's Eye Restaurant"},"desc":{"fr":null,"en":null}},{"time":"~19h45","time_en":"~7:45 PM","type":"mandatory","title":{"fr":"Discours — placeholder pendant le dîner","en":"Speeches — placeholder during dinner"},"who":{"fr":"Amis, wedding party — à confirmer","en":"Friends, wedding party — to confirm"},"desc":{"fr":"À caler entre les plats. Contenu et ordre à définir avec Alice & Lucas.","en":"To slot between courses. Content and order to be confirmed with Alice & Lucas."}},{"time":"20h15","time_en":"8:15 PM","type":"photo","title":{"fr":"Photos golden hour — Couple","en":"Golden hour photos — Couple"},"who":{"fr":"Alice & Lucas + Photographe · Fin du forfait 4h à 21h","en":"Alice & Lucas + Photographer · 4-hour package ends at 9 PM"},"desc":{"fr":"20h15–20h45. Coucher de soleil à Golden vers 21h30 — bonne lumière dorée. Les invités continuent de dîner.","en":"8:15–8:45 PM. Sunset in Golden ~9:30 PM — great golden light. Guests continue dining."}},{"time":"21h00","time_en":"9:00 PM","type":"wedding","title":{"fr":"Première danse & ouverture de la piste !","en":"First dance & party starts!"},"who":{"fr":"Alice & Lucas — puis tous !","en":"Alice & Lucas — then everyone!"},"desc":{"fr":null,"en":null}},{"time":"21h00","time_en":"9:00 PM","type":"mandatory","title":{"fr":"Soirée dansante","en":"Dancing & party"},"who":{"fr":"Tous — bar ferme 00h15, gondola descente avant 00h45","en":"Everyone — bar closes 12:15 AM, gondola down by 12:45 AM"},"desc":{"fr":null,"en":null}},{"time":"~01h00","time_en":"~1:00 AM","type":"optional","title":{"fr":"After-party au QG","en":"After-party at HQ"},"who":{"fr":"Pour les courageux — feu de camp, jacuzzis","en":"For the brave ones — campfire, hot tubs"},"desc":{"fr":null,"en":null}}]}]};
+
+const CER = {"title":{"fr":"Alice & Lucas — Cérémonie","en":"Alice & Lucas — Ceremony"},"subtitle":{"fr":"Déroulement · 17h30 · 30 Juin 2026","en":"Runsheet · 5:30 PM · June 30, 2026"},"total_duration":{"fr":"~30 minutes","en":"~30 minutes"},"total_label":{"fr":"Durée totale estimée","en":"Estimated total duration"},"fit_label":{"fr":"Dans les 30–40 min ✓","en":"Within 30–40 min ✓"},"progress_segments":[{"label":{"fr":"Entrées","en":"Procession"},"color":"#7a3ea3","width":"18%"},{"label":{"fr":"Accueil","en":"Welcome"},"color":"#2e7d4f","width":"13%"},{"label":{"fr":"Parents","en":"Parents"},"color":"#c05c00","width":"10%"},{"label":{"fr":"Vœux","en":"Vows"},"color":"#3a6ea8","width":"23%"},{"label":{"fr":"Alliances","en":"Rings"},"color":"#c9a030","width":"19%"},{"label":{"fr":"Clôture","en":"Closing"},"color":"#a33030","width":"17%"}],"steps":[{"num":"1","type":"entry","duration":"~3 min","title":{"fr":"Entrée du cortège / Wedding party enters","en":"Wedding party enters"},"who":{"fr":"5 couples — 5 demoiselles d'honneur + 5 témoins","en":"5 couples — 5 bridesmaids + 5 best men"},"desc":{"fr":"Les 5 couples entrent en musique un par un et prennent leur place.","en":"The 5 couples walk in one by one to music and take their places."},"flag":null},{"num":"2","type":"entry","duration":"~30 sec","title":{"fr":"Entrée de Lucas","en":"Lucas enters"},"who":{"fr":"Lucas + sa maman","en":"Lucas + his mom"},"desc":{"fr":"Lucas entre avec sa maman et prend sa place.","en":"Lucas walks in with his mom and takes his place."},"flag":null},{"num":"♡","type":"wedding","duration":"~2 min","title":{"fr":"Entrée d'Alice","en":"Alice enters"},"who":{"fr":"Alice","en":"Alice"},"desc":{"fr":"Tout le monde se lève. Alice entre en musique et rejoint Lucas.","en":"Everyone stands. Alice walks in to music and joins Lucas."},"flag":null},{"num":"4","type":"word","duration":"~2 min","title":{"fr":"Mot d'introduction — MC Anne-Laure","en":"Introduction — MC Anne-Laure"},"who":{"fr":"Anne-Laure — MC & demoiselle d'honneur d'Alice","en":"Anne-Laure — MC & Alice's maid of honor"},"desc":{"fr":"Quelques mots de bienvenue pour accueillir les invités, puis passage de parole à Alaina.","en":"A few words of welcome for the guests, then passing to Alaina."},"flag":null},{"num":"5","type":"word","duration":"~2 min","title":{"fr":"Introduction de la cérémonie — Alaina","en":"Ceremony introduction — Alaina"},"who":{"fr":"Alaina Lorriman — Officiant","en":"Alaina Lorriman — Officiant"},"desc":{"fr":"Alaina présente la cérémonie et introduit les discours des parents.","en":"Alaina presents the ceremony and introduces the parent speeches."},"flag":null},{"num":"6","type":"speech","duration":"~3 min","title":{"fr":"Discours des parents de Lucas","en":"Lucas's parents' speech"},"who":{"fr":"Maman & papa de Lucas — ensemble","en":"Lucas's mom & dad — together"},"desc":{"fr":"Les parents de Lucas prennent la parole ensemble. Court et sincère.","en":"Lucas's parents speak together. Short and heartfelt."},"flag":{"fr":"À préparer à l'avance — max 3 min à deux.","en":"To be prepared in advance — max 3 min together."}},{"num":"7","type":"vows","duration":"~7 min","title":{"fr":"Vœux & cérémonie — Alaina","en":"Vows & ceremony — Alaina"},"who":{"fr":"Alaina + Alice & Lucas","en":"Alaina + Alice & Lucas"},"desc":{"fr":"Alaina guide la cérémonie. Alice et Lucas prononcent leurs vœux (~1 min chacun). Alaina complète avec les formules officielles.","en":"Alaina guides the ceremony. Alice and Lucas say their vows (~1 min each). Alaina completes with the official wording."},"flag":null},{"num":"8","type":"rings","duration":"~5 min","title":{"fr":"Échange des alliances — Zoa & Chris","en":"Ring exchange — Zoa & Chris"},"who":{"fr":"Zoa (les alliances) · Chris (porte Zoa)","en":"Zoa (the rings) · Chris (holds Zoa)"},"desc":{"fr":"Chris apporte Zoa avec les alliances. Alice et Lucas échangent les anneaux pendant qu'Alaina prononce les mots officiels.","en":"Chris brings Zoa in with the rings. Alice and Lucas exchange rings while Alaina says the official words."},"flag":{"fr":"⚠️ Briefer Chris sur le timing. S'assurer que Zoa est à l'aise avec la foule.","en":"⚠️ Brief Chris on the exact cue. Make sure Zoa is comfortable with the crowd."}},{"num":"9","type":"close","duration":"~5 min","title":{"fr":"Prononciation & sortie","en":"Pronouncement & exit"},"who":{"fr":"Alaina + Alice & Lucas","en":"Alaina + Alice & Lucas"},"desc":{"fr":"Alaina prononce le mariage. Le baiser. Sortie du couple en musique — direction le cocktail.","en":"Alaina pronounces the marriage. The kiss. Couple exits to music — cocktail time."},"flag":null}]};
+
+init();
+</script>
+</body>
+</html>

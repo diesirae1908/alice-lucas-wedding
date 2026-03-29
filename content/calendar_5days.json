@@ -1,0 +1,107 @@
+{
+  "title": { "fr": "Alice & Lucas — Programme de la Semaine", "en": "Alice & Lucas — Full Week Schedule" },
+  "subtitle": { "fr": "Golden, BC · 28 Juin – 3 Juillet 2026", "en": "Golden, BC · June 28 – July 3, 2026" },
+  "legend": {
+    "mandatory": { "fr": "Incontournable", "en": "Mandatory" },
+    "optional":  { "fr": "Optionnel", "en": "Optional" },
+    "meal":      { "fr": "Repas / Boissons", "en": "Food & Drinks" },
+    "travel":    { "fr": "Voyage / Logistique", "en": "Travel / Logistics" },
+    "info":      { "fr": "Info pratique", "en": "Practical Info" },
+    "break":     { "fr": "Libre / Pause", "en": "Free / Break" }
+  },
+  "days": [
+    {
+      "id": "jun28",
+      "name": { "fr": "Dimanche 28 Juin", "en": "Sunday June 28" },
+      "short": { "fr": "28 Juin", "en": "Jun 28" },
+      "theme": { "fr": "Bienvenue au QG !", "en": "Welcome to HQ!" },
+      "events": [
+        { "time": "", "time_en": "", "type": "travel", "title": { "fr": "Arrivées", "en": "Arrivals" }, "desc": { "fr": "Rejoignez Golden à votre rythme. QG: 780 Lafontaine Road.", "en": "Make your way to Golden. HQ: 780 Lafontaine Road." } },
+        { "time": "16h00", "time_en": "4:00 PM", "type": "info", "title": { "fr": "Check-in chalets", "en": "Cabin check-in" }, "desc": { "fr": "Ouverture de tous les chalets Wild Wood Cabins.", "en": "All Wild Wood Cabins open." } },
+        { "time": "17h00", "time_en": "5:00 PM", "type": "mandatory", "title": { "fr": "Pot de Bienvenue / Apéro", "en": "Welcome Apéro" }, "desc": { "fr": "Retrouvailles au QG ! Apéritifs et retrouvailles.", "en": "First hellos at HQ! Drinks and mingling." } },
+        { "time": "~18h30", "time_en": "~6:30 PM", "type": "meal", "title": { "fr": "BBQ de Bienvenue / Dîner", "en": "Welcome BBQ Dinner" }, "desc": { "fr": "Dîner BBQ ensemble au QG.", "en": "BBQ dinner together at HQ." } },
+        { "time": "Soirée", "time_en": "Evening", "type": "break", "title": { "fr": "Feu de camp & jacuzzis", "en": "Campfire & hot tubs" }, "desc": { "fr": "Soirée libre au QG.", "en": "Free evening at HQ." } }
+      ]
+    },
+    {
+      "id": "jun29",
+      "name": { "fr": "Lundi 29 Juin", "en": "Monday June 29" },
+      "short": { "fr": "29 Juin", "en": "Jun 29" },
+      "theme": { "fr": "Olympiades de l'Amour !", "en": "Love Olympics!" },
+      "events": [
+        { "time": "08h–09h30", "time_en": "8–9:30 AM", "type": "break", "title": { "fr": "Petit-déjeuner libre", "en": "Free breakfast" }, "desc": { "fr": "Café à Ethos ou Wandering Fern, ou cuisine au chalet.", "en": "Grab coffee at Ethos or Wandering Fern, or cook at the cabin." } },
+        { "time": "10h00", "time_en": "10:00 AM", "type": "mandatory", "title": { "fr": "Olympiades de l'Amour — Début !", "en": "Love Olympics — Start!" }, "desc": { "fr": "Jeux canadiens en équipe : lancer de haches, défis en plein air. Habillez-vous confortablement !", "en": "Canadian team games: axe throwing, outdoor challenges. Wear clothes you can move in!" } },
+        { "time": "~12h30", "time_en": "~12:30 PM", "type": "meal", "title": { "fr": "Déjeuner BBQ", "en": "BBQ Lunch" }, "desc": { "fr": "Pause déjeuner en plein air — les jeux reprennent après !", "en": "Outdoor lunch break — games resume after!" } },
+        { "time": "13h30–17h", "time_en": "1:30–5 PM", "type": "mandatory", "title": { "fr": "Olympiades — Suite & Finale", "en": "Love Olympics — Final rounds" }, "desc": { "fr": "Épreuves finales, classement et remise des médailles.", "en": "Final challenges, rankings and medal ceremony!" } },
+        { "time": "~17h00", "time_en": "~5:00 PM", "type": "meal", "title": { "fr": "Gâteau & Goûter", "en": "Cake & Snack Break" }, "desc": { "fr": "Pause sucrée pour célébrer les champions !", "en": "Sweet break to celebrate the champions!" } },
+        { "time": "17h30–19h", "time_en": "5:30–7 PM", "type": "break", "title": { "fr": "Repos — jacuzzis & douche", "en": "Break — hot tubs & freshen up" }, "desc": { "fr": "Décompression avant le dîner.", "en": "Relax and freshen up before dinner." } },
+        { "time": "~18h30", "time_en": "~6:30 PM", "type": "mandatory", "title": { "fr": "Répétition de cérémonie", "en": "Ceremony rehearsal" }, "desc": { "fr": "Au QG avec Alaina Lorriman. Durée ~45–60 min. Inclut tout le cortège.", "en": "At HQ with Alaina Lorriman. ~45–60 min. Full wedding party included." } },
+        { "time": "~19h30", "time_en": "~7:30 PM", "type": "meal", "title": { "fr": "Dîner ensemble", "en": "Dinner together" }, "desc": { "fr": "Dîner de répétition au QG ou restaurant. À confirmer.", "en": "Rehearsal dinner at HQ or restaurant. TBC." } },
+        { "time": "Soirée", "time_en": "Evening", "type": "break", "title": { "fr": "Feu de camp — dernière nuit avant le grand jour !", "en": "Campfire — last night before the big day!" }, "desc": { "fr": "Feu de camp, jacuzzis, soirée libre.", "en": "Campfire, hot tubs, free evening." } }
+      ]
+    },
+    {
+      "id": "jun30",
+      "name": { "fr": "Mardi 30 Juin — LE GRAND JOUR", "en": "Tuesday June 30 — THE BIG DAY" },
+      "short": { "fr": "30 Juin ★", "en": "Jun 30 ★" },
+      "theme": { "fr": "Jour du Mariage / Wedding Day 💒", "en": "Wedding Day 💒" },
+      "highlight": true,
+      "events": [
+        { "time": "Matin", "time_en": "Morning", "type": "break", "title": { "fr": "Matinée libre", "en": "Free morning" }, "desc": { "fr": "Petit-déjeuner tranquille, repos.", "en": "Relaxed breakfast, rest up." } },
+        { "time": "~13h", "time_en": "~1 PM", "type": "meal", "title": { "fr": "Déjeuner libre", "en": "Lunch — on your own" }, "desc": { "fr": "Chacun mange à sa guise en ville ou au chalet.", "en": "Everyone finds their own lunch in town or at the cabin." } },
+        { "time": "16h45", "time_en": "4:45 PM", "type": "mandatory", "title": { "fr": "Départ vers Kicking Horse Resort", "en": "Head to Kicking Horse Resort" }, "desc": { "fr": "~15 min de route. Être au pied du gondola avant 17h.", "en": "~15 min drive. Everyone at the gondola base by 5 PM." } },
+        { "time": "17h00", "time_en": "5:00 PM", "type": "mandatory", "title": { "fr": "Embarquement gondola", "en": "Gondola boarding" }, "desc": { "fr": "Montée au sommet — 2 347 m d'altitude. ~10 min de trajet.", "en": "Up to the summit — 7,700 ft. ~10 min ride." } },
+        { "time": "17h30", "time_en": "5:30 PM", "type": "mandatory", "title": { "fr": "CÉRÉMONIE 💒", "en": "CEREMONY 💒" }, "desc": { "fr": "En plein air face aux Rocheuses. ~30 minutes.", "en": "Outdoor ceremony facing the Rockies. ~30 minutes." } },
+        { "time": "~18h00", "time_en": "~6:00 PM", "type": "meal", "title": { "fr": "Cocktail & champagne", "en": "Cocktail & champagne" }, "desc": { "fr": "Cocktail démarre juste après la cérémonie. Photos de groupe en parallèle.", "en": "Cocktail starts right after the ceremony. Group photos happen in parallel." } },
+        { "time": "19h30", "time_en": "7:30 PM", "type": "meal", "title": { "fr": "Dîner assis / Seated dinner", "en": "Seated dinner" }, "desc": { "fr": "Dîner de gala au restaurant Eagle's Eye. Discours pendant le dîner.", "en": "Gala dinner at Eagle's Eye Restaurant. Speeches during dinner." } },
+        { "time": "20h15", "time_en": "8:15 PM", "type": "mandatory", "title": { "fr": "Photos golden hour — Couple", "en": "Golden hour photos — Couple" }, "desc": { "fr": "20h15–20h45. Les invités continuent de dîner.", "en": "8:15–8:45 PM. Guests continue dining." } },
+        { "time": "21h00", "time_en": "9:00 PM", "type": "mandatory", "title": { "fr": "Première danse & soirée dansante !", "en": "First dance & party!" }, "desc": { "fr": "Jusqu'à minuit. Bar ferme 00h15, gondola descente avant 00h45.", "en": "Until midnight. Bar closes 12:15 AM, gondola down by 12:45 AM." } },
+        { "time": "~01h00", "time_en": "~1:00 AM", "type": "optional", "title": { "fr": "After-party au QG", "en": "After-party at HQ" }, "desc": { "fr": "Pour les courageux — feu de camp & jacuzzis.", "en": "For the brave ones — campfire & hot tubs." } }
+      ]
+    },
+    {
+      "id": "jul1",
+      "name": { "fr": "Mercredi 1er Juillet — Fête du Canada", "en": "Wednesday July 1 — Canada Day" },
+      "short": { "fr": "1er Juil. 🇨🇦", "en": "Jul 1 🇨🇦" },
+      "theme": { "fr": "Canada Day & Boo le grizzly !", "en": "Canada Day & Boo the grizzly!" },
+      "events": [
+        { "time": "Matin", "time_en": "Morning", "type": "break", "title": { "fr": "Grasse matinée bien méritée", "en": "Well-deserved sleep in" }, "desc": { "fr": "Repos après la grande soirée.", "en": "Rest up after the big night." } },
+        { "time": "", "time_en": "", "type": "info", "title": { "fr": "Parcs nationaux gratuits aujourd'hui !", "en": "Free national park entry today!" }, "desc": { "fr": "Le 1er juillet, entrée gratuite dans tous les parcs nationaux. Yoho, Banff…", "en": "July 1st = free admission to all national parks. Yoho, Banff…" } },
+        { "time": "~12h00", "time_en": "~Noon", "type": "optional", "title": { "fr": "Téléphérique + Visite de Boo le grizzly", "en": "Gondola + Visit Boo the grizzly" }, "desc": { "fr": "2ème jour du forfait ! Montée en téléphérique, visite de Boo le grizzly rescapé, marche sur la crête (~1h, sans dénivelé).", "en": "Day 2 of your gondola pass! Visit Boo the rescued grizzly, then a flat ridgeline walk (~1hr)." } },
+        { "time": "~13h30", "time_en": "~1:30 PM", "type": "meal", "title": { "fr": "Déjeuner libre", "en": "Lunch on your own" }, "desc": { "fr": "Pique-nique au sommet, restaurant en ville, ou chalet.", "en": "Picnic at the summit, restaurant in town, or cabin." } },
+        { "time": "Après-midi", "time_en": "Afternoon", "type": "optional", "title": { "fr": "Parcs nationaux — Yoho ou Banff", "en": "National Parks — Yoho or Banff" }, "desc": { "fr": "Lac Émeraude, Chutes Takakkaw, Lac Louise — entrée gratuite !", "en": "Emerald Lake, Takakkaw Falls, Lake Louise — free entry!" } },
+        { "time": "18h00", "time_en": "6:00 PM", "type": "optional", "title": { "fr": "Whitetooth Brewing — Trinquons !", "en": "Whitetooth Brewing — Cheers!" }, "desc": { "fr": "La brasserie préférée d'Alice & Lucas. Dîner et bières pour fêter le Canada Day.", "en": "Alice & Lucas's favourite brewery. Dinner and beers for Canada Day." } }
+      ]
+    },
+    {
+      "id": "jul2",
+      "name": { "fr": "Jeudi 2 Juillet", "en": "Thursday July 2" },
+      "short": { "fr": "2 Juil.", "en": "Jul 2" },
+      "theme": { "fr": "Aventure & Dernier soir", "en": "Adventure & Last evening" },
+      "events": [
+        { "time": "08h–10h", "time_en": "8–10 AM", "type": "break", "title": { "fr": "Petit-déjeuner libre", "en": "Free breakfast" }, "desc": { "fr": "Café au chalet ou en ville.", "en": "Coffee at the cabin or in town." } },
+        { "time": "10h–14h", "time_en": "10 AM–2 PM", "type": "optional", "title": { "fr": "Canot Lac Émeraude / Canoe Emerald Lake", "en": "Canoe Emerald Lake" }, "desc": { "fr": "Alice & Lucas vous invitent à Yoho (45 min). Pagayez sur le Lac Émeraude !", "en": "Join Alice & Lucas at Yoho (45 min). Paddle the turquoise Emerald Lake!" } },
+        { "time": "Journée", "time_en": "Daytime", "type": "optional", "title": { "fr": "Autres activités", "en": "Other options" }, "desc": { "fr": "VTT Kicking Horse, sources Radium (1h sud), golf Golden Golf Club, ou repos au jacuzzi.", "en": "Mountain biking, Radium Hot Springs (1hr south), golf, or just relax." } },
+        { "time": "~13h", "time_en": "~1 PM", "type": "meal", "title": { "fr": "Déjeuner libre", "en": "Lunch on your own" }, "desc": { "fr": "Pique-nique au lac, restaurant, ou retour au QG.", "en": "Picnic at the lake, restaurant, or back at HQ." } },
+        { "time": "16h–18h30", "time_en": "4–6:30 PM", "type": "break", "title": { "fr": "Retour au QG — repos & jacuzzis", "en": "Return to HQ — rest & hot tubs" }, "desc": { "fr": "Temps libre, faire les valises pour certains.", "en": "Free time, start packing for some." } },
+        { "time": "19h00", "time_en": "7:00 PM", "type": "optional", "title": { "fr": "Dernier dîner ensemble au QG", "en": "Last dinner together at HQ" }, "desc": { "fr": "BBQ final. On finit comme on a commencé — en famille !", "en": "Final BBQ. We end as we began — together!" } },
+        { "time": "Soirée", "time_en": "Evening", "type": "break", "title": { "fr": "Dernier feu de camp ♡", "en": "Last campfire ♡" }, "desc": { "fr": "Étoiles, jacuzzis, souvenirs — la dernière nuit tous ensemble.", "en": "Stars, hot tubs, memories — the last night all together." } }
+      ]
+    },
+    {
+      "id": "jul3",
+      "name": { "fr": "Vendredi 3 Juillet — Au revoir !", "en": "Friday July 3 — Goodbye!" },
+      "short": { "fr": "3 Juil.", "en": "Jul 3" },
+      "theme": { "fr": "Bon voyage ! À bientôt.", "en": "Safe travels! See you soon." },
+      "events": [
+        { "time": "Matin", "time_en": "Morning", "type": "break", "title": { "fr": "Dernier café & adieux", "en": "Last coffee & goodbyes" }, "desc": { "fr": "Un dernier café, les adieux, les photos de groupe.", "en": "One last coffee, goodbyes, group photos." } },
+        { "time": "Avant 11h", "time_en": "By 11 AM", "type": "info", "title": { "fr": "Check-out chalets", "en": "Cabin checkout" }, "desc": { "fr": "Départ de tous les chalets avant 11h. Bear's Den reste jusqu'au 4 juillet.", "en": "All cabins check out by 11 AM. Bear's Den stays until July 4." } },
+        { "time": "Après", "time_en": "After", "type": "optional", "title": { "fr": "La suite de l'aventure !", "en": "The adventure continues!" }, "desc": { "fr": "Road trip Rocheuses, Banff–Jasper, Vancouver, Île de Vancouver, Coupe du Monde FIFA…", "en": "Rockies road trip, Banff–Jasper, Vancouver, Vancouver Island, FIFA World Cup…" } }
+      ]
+    }
+  ],
+  "info_box": {
+    "fr": "QG (Chalets) : 780 Lafontaine Road, Golden BC — ~10 min centre-ville. GPS peut ne pas fonctionner, suivez les panneaux ! · Forfait gondola : valable 30 juin + 1er juillet uniquement · Whitetooth Brewing : Centre-ville Golden · ID obligatoire pour l'alcool (19+ en CB) · Veste obligatoire le soir du 30 juin — 2 347 m d'altitude !",
+    "en": "HQ (Cabins): 780 Lafontaine Road, Golden BC — ~10 min from downtown. GPS may not work — follow the signs! · Gondola pass: valid June 30 + July 1 only · Whitetooth Brewing: Downtown Golden · Valid ID required for alcohol (19+ in BC) · Bring a jacket on June 30 — 7,700 ft altitude!"
+  }
+}
