@@ -4,10 +4,7 @@
   "legend": {
     "mandatory": { "fr": "Incontournable", "en": "Mandatory" },
     "optional":  { "fr": "Optionnel", "en": "Optional" },
-    "meal":      { "fr": "Repas / Boissons", "en": "Food & Drinks" },
-    "travel":    { "fr": "Voyage / Logistique", "en": "Travel / Logistics" },
-    "info":      { "fr": "Info pratique", "en": "Practical Info" },
-    "break":     { "fr": "Libre / Pause", "en": "Free / Break" }
+    "info":      { "fr": "Info pratique", "en": "Practical Info" }
   },
   "days": [
     {
@@ -49,10 +46,10 @@
       "events": [
         { "time": "Matin", "time_en": "Morning", "type": "break", "title": { "fr": "Matinée libre", "en": "Free morning" }, "desc": { "fr": "Petit-déjeuner tranquille, repos.", "en": "Relaxed breakfast, rest up." } },
         { "time": "~13h", "time_en": "~1 PM", "type": "meal", "title": { "fr": "Déjeuner libre", "en": "Lunch — on your own" }, "desc": { "fr": "Chacun mange à sa guise en ville ou au chalet.", "en": "Everyone finds their own lunch in town or at the cabin." } },
-        { "time": "16h45", "time_en": "4:45 PM", "type": "mandatory", "title": { "fr": "Départ vers Kicking Horse Resort", "en": "Head to Kicking Horse Resort" }, "desc": { "fr": "~15 min de route. Être au pied du gondola avant 17h.", "en": "~15 min drive. Everyone at the gondola base by 5 PM." } },
+        { "time": "16h30", "time_en": "4:30 PM", "type": "mandatory", "title": { "fr": "Départ vers Kicking Horse Resort", "en": "Head to Kicking Horse Resort" }, "desc": { "fr": "~15 min de route. Être au pied du gondola avant 17h.", "en": "~15 min drive. Everyone at the gondola base by 5 PM." } },
         { "time": "17h00", "time_en": "5:00 PM", "type": "mandatory", "title": { "fr": "Embarquement gondola", "en": "Gondola boarding" }, "desc": { "fr": "Montée au sommet — 2 347 m d'altitude. ~10 min de trajet.", "en": "Up to the summit — 7,700 ft. ~10 min ride." } },
-        { "time": "17h30", "time_en": "5:30 PM", "type": "mandatory", "title": { "fr": "CÉRÉMONIE 💒", "en": "CEREMONY 💒" }, "desc": { "fr": "En plein air face aux Rocheuses. ~30 minutes.", "en": "Outdoor ceremony facing the Rockies. ~30 minutes." } },
-        { "time": "~18h00", "time_en": "~6:00 PM", "type": "meal", "title": { "fr": "Cocktail & champagne", "en": "Cocktail & champagne" }, "desc": { "fr": "Cocktail démarre juste après la cérémonie. Photos de groupe en parallèle.", "en": "Cocktail starts right after the ceremony. Group photos happen in parallel." } },
+        { "time": "17h30", "time_en": "5:30 PM", "type": "wedding", "title": { "fr": "CÉRÉMONIE 💒", "en": "CEREMONY 💒" }, "desc": { "fr": "En plein air face aux Rocheuses. ~35 minutes.", "en": "Outdoor ceremony facing the Rockies. ~35 minutes." } },
+        { "time": "~18h05", "time_en": "~6:05 PM", "type": "meal", "title": { "fr": "Cocktail", "en": "Cocktail" }, "desc": { "fr": "Cocktail démarre juste après la cérémonie. Photos de groupe en parallèle.", "en": "Cocktail starts right after the ceremony. Group photos happen in parallel." } },
         { "time": "19h30", "time_en": "7:30 PM", "type": "meal", "title": { "fr": "Dîner assis / Seated dinner", "en": "Seated dinner" }, "desc": { "fr": "Dîner de gala au restaurant Eagle's Eye. Discours pendant le dîner.", "en": "Gala dinner at Eagle's Eye Restaurant. Speeches during dinner." } },
         { "time": "20h15", "time_en": "8:15 PM", "type": "mandatory", "title": { "fr": "Photos golden hour — Couple", "en": "Golden hour photos — Couple" }, "desc": { "fr": "20h15–20h45. Les invités continuent de dîner.", "en": "8:15–8:45 PM. Guests continue dining." } },
         { "time": "21h00", "time_en": "9:00 PM", "type": "mandatory", "title": { "fr": "Première danse & soirée dansante !", "en": "First dance & party!" }, "desc": { "fr": "Jusqu'à minuit. Bar ferme 00h15, gondola descente avant 00h45.", "en": "Until midnight. Bar closes 12:15 AM, gondola down by 12:45 AM." } },
@@ -69,7 +66,6 @@
         { "time": "", "time_en": "", "type": "info", "title": { "fr": "Parcs nationaux gratuits aujourd'hui !", "en": "Free national park entry today!" }, "desc": { "fr": "Le 1er juillet, entrée gratuite dans tous les parcs nationaux. Yoho, Banff…", "en": "July 1st = free admission to all national parks. Yoho, Banff…" } },
         { "time": "~12h00", "time_en": "~Noon", "type": "optional", "title": { "fr": "Téléphérique + Visite de Boo le grizzly", "en": "Gondola + Visit Boo the grizzly" }, "desc": { "fr": "2ème jour du forfait ! Montée en téléphérique, visite de Boo le grizzly rescapé, marche sur la crête (~1h, sans dénivelé).", "en": "Day 2 of your gondola pass! Visit Boo the rescued grizzly, then a flat ridgeline walk (~1hr)." } },
         { "time": "~13h30", "time_en": "~1:30 PM", "type": "meal", "title": { "fr": "Déjeuner libre", "en": "Lunch on your own" }, "desc": { "fr": "Pique-nique au sommet, restaurant en ville, ou chalet.", "en": "Picnic at the summit, restaurant in town, or cabin." } },
-        { "time": "Après-midi", "time_en": "Afternoon", "type": "optional", "title": { "fr": "Parcs nationaux — Yoho ou Banff", "en": "National Parks — Yoho or Banff" }, "desc": { "fr": "Lac Émeraude, Chutes Takakkaw, Lac Louise — entrée gratuite !", "en": "Emerald Lake, Takakkaw Falls, Lake Louise — free entry!" } },
         { "time": "18h00", "time_en": "6:00 PM", "type": "optional", "title": { "fr": "Whitetooth Brewing — Trinquons !", "en": "Whitetooth Brewing — Cheers!" }, "desc": { "fr": "La brasserie préférée d'Alice & Lucas. Dîner et bières pour fêter le Canada Day.", "en": "Alice & Lucas's favourite brewery. Dinner and beers for Canada Day." } }
       ]
     },
@@ -94,14 +90,13 @@
       "short": { "fr": "3 Juil.", "en": "Jul 3" },
       "theme": { "fr": "Bon voyage ! À bientôt.", "en": "Safe travels! See you soon." },
       "events": [
-        { "time": "Matin", "time_en": "Morning", "type": "break", "title": { "fr": "Dernier café & adieux", "en": "Last coffee & goodbyes" }, "desc": { "fr": "Un dernier café, les adieux, les photos de groupe.", "en": "One last coffee, goodbyes, group photos." } },
         { "time": "Avant 11h", "time_en": "By 11 AM", "type": "info", "title": { "fr": "Check-out chalets", "en": "Cabin checkout" }, "desc": { "fr": "Départ de tous les chalets avant 11h. Bear's Den reste jusqu'au 4 juillet.", "en": "All cabins check out by 11 AM. Bear's Den stays until July 4." } },
         { "time": "Après", "time_en": "After", "type": "optional", "title": { "fr": "La suite de l'aventure !", "en": "The adventure continues!" }, "desc": { "fr": "Road trip Rocheuses, Banff–Jasper, Vancouver, Île de Vancouver, Coupe du Monde FIFA…", "en": "Rockies road trip, Banff–Jasper, Vancouver, Vancouver Island, FIFA World Cup…" } }
       ]
     }
   ],
   "info_box": {
-    "fr": "QG (Chalets) : 780 Lafontaine Road, Golden BC — ~10 min centre-ville. GPS peut ne pas fonctionner, suivez les panneaux ! · Forfait gondola : valable 30 juin + 1er juillet uniquement · Whitetooth Brewing : Centre-ville Golden · ID obligatoire pour l'alcool (19+ en CB) · Veste obligatoire le soir du 30 juin — 2 347 m d'altitude !",
-    "en": "HQ (Cabins): 780 Lafontaine Road, Golden BC — ~10 min from downtown. GPS may not work — follow the signs! · Gondola pass: valid June 30 + July 1 only · Whitetooth Brewing: Downtown Golden · Valid ID required for alcohol (19+ in BC) · Bring a jacket on June 30 — 7,700 ft altitude!"
+    "fr": "QG (Chalets) : 780 Lafontaine Road, Golden BC — ~10 min centre-ville. GPS peut ne pas fonctionner, suivez les panneaux ! · Forfait gondola : valable 30 juin + 1er juillet uniquement · Whitetooth Brewing : Centre-ville Golden · ID obligatoire pour l'alcool (19+ en CB)",
+    "en": "HQ (Cabins): 780 Lafontaine Road, Golden BC — ~10 min from downtown. GPS may not work — follow the signs! · Gondola pass: valid June 30 + July 1 only · Whitetooth Brewing: Downtown Golden · Valid ID required for alcohol (19+ in BC)"
   }
 }

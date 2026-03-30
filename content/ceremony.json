@@ -1,15 +1,15 @@
 {
   "title": { "fr": "Alice & Lucas — Cérémonie", "en": "Alice & Lucas — Ceremony" },
   "subtitle": { "fr": "Déroulement · 17h30 · 30 Juin 2026", "en": "Runsheet · 5:30 PM · June 30, 2026" },
-  "total_duration": { "fr": "~30 minutes", "en": "~30 minutes" },
+  "total_duration": { "fr": "~35 minutes", "en": "~35 minutes" },
   "total_label": { "fr": "Durée totale estimée", "en": "Estimated total duration" },
   "fit_label": { "fr": "Dans les 30–40 min ✓", "en": "Within 30–40 min ✓" },
   "progress_segments": [
     { "label": { "fr": "Entrées", "en": "Procession" }, "color": "#7a3ea3", "width": "18%" },
-    { "label": { "fr": "Accueil", "en": "Welcome" }, "color": "#2e7d4f", "width": "13%" },
-    { "label": { "fr": "Parents", "en": "Parents" }, "color": "#c05c00", "width": "10%" },
-    { "label": { "fr": "Vœux", "en": "Vows" }, "color": "#3a6ea8", "width": "23%" },
-    { "label": { "fr": "Alliances", "en": "Rings" }, "color": "#c9a030", "width": "19%" },
+    { "label": { "fr": "Accueil", "en": "Welcome" }, "color": "#2e7d4f", "width": "11%" },
+    { "label": { "fr": "Parents", "en": "Parents" }, "color": "#c05c00", "width": "17%" },
+    { "label": { "fr": "Vœux", "en": "Vows" }, "color": "#3a6ea8", "width": "20%" },
+    { "label": { "fr": "Alliances", "en": "Rings" }, "color": "#c9a030", "width": "17%" },
     { "label": { "fr": "Clôture", "en": "Closing" }, "color": "#a33030", "width": "17%" }
   ],
   "steps": [
@@ -62,13 +62,22 @@
       "num": "6",
       "type": "speech",
       "duration": "~3 min",
+      "title": { "fr": "Discours des parents d'Alice", "en": "Alice's parents' speech" },
+      "who": { "fr": "Parents d'Alice — ensemble", "en": "Alice's parents — together" },
+      "desc": { "fr": "Les parents d'Alice prennent la parole ensemble. Court et sincère.", "en": "Alice's parents speak together. Short and heartfelt." },
+      "flag": { "fr": "À préparer à l'avance — max 3 min à deux.", "en": "To be prepared in advance — max 3 min together." }
+    },
+    {
+      "num": "7",
+      "type": "speech",
+      "duration": "~3 min",
       "title": { "fr": "Discours des parents de Lucas", "en": "Lucas's parents' speech" },
       "who": { "fr": "Maman & papa de Lucas — ensemble", "en": "Lucas's mom & dad — together" },
       "desc": { "fr": "Les parents de Lucas prennent la parole ensemble. Court et sincère.", "en": "Lucas's parents speak together. Short and heartfelt." },
       "flag": { "fr": "À préparer à l'avance — max 3 min à deux.", "en": "To be prepared in advance — max 3 min together." }
     },
     {
-      "num": "7",
+      "num": "8",
       "type": "vows",
       "duration": "~7 min",
       "title": { "fr": "Vœux & cérémonie — Alaina", "en": "Vows & ceremony — Alaina" },
@@ -77,7 +86,7 @@
       "flag": null
     },
     {
-      "num": "8",
+      "num": "9",
       "type": "rings",
       "duration": "~5 min",
       "title": { "fr": "Échange des alliances — Zoa & Chris", "en": "Ring exchange — Zoa & Chris" },
@@ -86,7 +95,7 @@
       "flag": { "fr": "⚠️ Briefer Chris sur le timing. S'assurer que Zoa est à l'aise avec la foule.", "en": "⚠️ Brief Chris on the exact cue. Make sure Zoa is comfortable with the crowd." }
     },
     {
-      "num": "9",
+      "num": "10",
       "type": "close",
       "duration": "~5 min",
       "title": { "fr": "Prononciation & sortie", "en": "Pronouncement & exit" },
