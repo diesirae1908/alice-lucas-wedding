@@ -247,6 +247,50 @@
       .tab-btn .ti { font-size: 19px; }
     }
 
+    /* ── Private gate ───────────────────────────────────── */
+    .private-lock-screen {
+      max-width: 340px; margin: 60px auto 0;
+      background: white; border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 36px 28px 32px;
+      text-align: center;
+    }
+    .private-lock-icon { font-size: 42px; margin-bottom: 14px; }
+    .private-lock-title { font-size: 20px; font-weight: 700; color: #2c1810; margin-bottom: 6px; }
+    .private-lock-sub   { font-size: 13px; color: #8B6E52; margin-bottom: 24px; }
+    .private-input-wrap { display: flex; flex-direction: column; gap: 10px; }
+    .private-pw-input {
+      width: 100%; padding: 11px 14px; border-radius: 10px;
+      border: 1.5px solid #e5e7eb; font-size: 15px; font-family: inherit;
+      text-align: center; letter-spacing: 2px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .private-pw-input:focus { border-color: #7a3ea3; }
+    .private-pw-btn {
+      width: 100%; padding: 11px; border-radius: 10px;
+      background: linear-gradient(135deg, #3a1f10, #6a2e90);
+      color: white; border: none; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: opacity 0.2s;
+    }
+    .private-pw-btn:hover { opacity: 0.9; }
+    .private-pw-error { margin-top: 10px; font-size: 13px; color: #c0392b; font-weight: 600; }
+
+    /* ── Private sub-nav ─────────────────────────────────── */
+    .private-sub-nav {
+      display: flex; background: #f5f0eb;
+      border-radius: 12px; padding: 5px;
+      margin-bottom: 16px; gap: 4px;
+    }
+    .private-sub-btn {
+      flex: 1; padding: 9px 8px; border: none; background: none;
+      border-radius: 9px; cursor: pointer; font-size: 13px;
+      font-weight: 600; color: #8B6E52; font-family: inherit;
+      transition: all 0.2s; display: flex; align-items: center;
+      justify-content: center; gap: 6px;
+    }
+    .private-sub-btn.active { background: white; color: #7a3ea3; box-shadow: 0 1px 6px rgba(0,0,0,0.10); }
+    .private-sub-btn:hover:not(.active) { color: #4b5563; }
+
     /* ── Handbook (Tab 4) ───────────────────────────────── */
     .hb-section {
       background: white; border-radius: 12px;
@@ -320,24 +364,46 @@
     <span id="tl0">Programme</span>
   </button>
   <button class="tab-btn" onclick="switchTab(1)">
-    <span class="ti">💒</span>
-    <span id="tl1">Jour J</span>
+    <span class="ti">📖</span>
+    <span id="tl1">Livret</span>
   </button>
   <button class="tab-btn" onclick="switchTab(2)">
-    <span class="ti">💍</span>
-    <span id="tl2">Cérémonie</span>
-  </button>
-  <button class="tab-btn" onclick="switchTab(3)">
-    <span class="ti">📖</span>
-    <span id="tl3">Livret</span>
+    <span class="ti" id="lock-icon">🔒</span>
+    <span id="tl2">Privé</span>
   </button>
 </nav>
 
 <main>
   <section id="tab-0" class="tab-pane active"></section>
   <section id="tab-1" class="tab-pane"></section>
-  <section id="tab-2" class="tab-pane"></section>
-  <section id="tab-3" class="tab-pane"></section>
+  <section id="tab-2" class="tab-pane">
+    <!-- Password gate -->
+    <div id="private-gate">
+      <div class="private-lock-screen">
+        <div class="private-lock-icon">🔒</div>
+        <div class="private-lock-title" id="gate-title">Section Privée</div>
+        <div class="private-lock-sub" id="gate-sub">Réservée aux mariés &amp; à l'équipe</div>
+        <div class="private-input-wrap">
+          <input type="password" id="pw-input" class="private-pw-input" placeholder="Mot de passe…" onkeydown="if(event.key==='Enter')unlockPrivate()">
+          <button class="private-pw-btn" onclick="unlockPrivate()" id="gate-btn">Accéder →</button>
+        </div>
+        <div id="pw-error" class="private-pw-error" style="display:none">Mot de passe incorrect</div>
+      </div>
+    </div>
+    <!-- Private content (hidden until unlocked) -->
+    <div id="private-content" style="display:none">
+      <nav class="private-sub-nav">
+        <button class="private-sub-btn active" id="psb-0" onclick="switchPrivateTab(0)">
+          <span>💒</span> <span id="ptl0">Jour J</span>
+        </button>
+        <button class="private-sub-btn" id="psb-1" onclick="switchPrivateTab(1)">
+          <span>💍</span> <span id="ptl1">Cérémonie</span>
+        </button>
+      </nav>
+      <div id="private-tab-0"></div>
+      <div id="private-tab-1" style="display:none"></div>
+    </div>
+  </section>
 </main>
 
 <script>
@@ -526,10 +592,62 @@ function renderStep(step) {
   </div>`;
 }
 
+// ── Private section ────────────────────────────────────────
+const PRIVATE_PW = 'ZOZOSOCUTE1908';
+let privateUnlocked = sessionStorage.getItem('private_unlocked') === '1';
+let privateSubTab = 0;
+
+function unlockPrivate() {
+  const val = document.getElementById('pw-input').value;
+  if (val === PRIVATE_PW) {
+    privateUnlocked = true;
+    sessionStorage.setItem('private_unlocked', '1');
+    showPrivateContent();
+  } else {
+    const err = document.getElementById('pw-error');
+    err.style.display = 'block';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+function showPrivateContent() {
+  document.getElementById('private-gate').style.display = 'none';
+  document.getElementById('private-content').style.display = 'block';
+  document.getElementById('lock-icon').textContent = '🔓';
+  renderPrivateContent();
+}
+
+function renderPrivateContent() {
+  document.getElementById('private-tab-0').innerHTML = renderWeddingDay();
+  document.getElementById('private-tab-1').innerHTML = renderCeremony();
+  const labels = lang === 'fr'
+    ? ['Jour J', 'Cérémonie']
+    : ['Wedding Day', 'Ceremony'];
+  labels.forEach((l, i) => { document.getElementById(`ptl${i}`).textContent = l; });
+}
+
+function switchPrivateTab(n) {
+  privateSubTab = n;
+  document.querySelectorAll('.private-sub-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+  document.getElementById('private-tab-0').style.display = n === 0 ? 'block' : 'none';
+  document.getElementById('private-tab-1').style.display = n === 1 ? 'block' : 'none';
+}
+
 // ── UI controls ────────────────────────────────────────────
 function switchTab(n) {
   document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
   document.querySelectorAll('.tab-pane').forEach((p, i) => p.classList.toggle('active', i === n));
+  // When opening private tab, show gate or content
+  if (n === 2) {
+    if (privateUnlocked) {
+      showPrivateContent();
+    } else {
+      document.getElementById('private-gate').style.display = 'block';
+      document.getElementById('private-content').style.display = 'none';
+      setTimeout(() => document.getElementById('pw-input').focus(), 100);
+    }
+  }
 }
 
 function toggleLang() {
@@ -541,17 +659,30 @@ function toggleLang() {
 
 function renderAll() {
   document.getElementById('tab-0').innerHTML = renderWeek();
-  document.getElementById('tab-1').innerHTML = renderWeddingDay();
-  document.getElementById('tab-2').innerHTML = renderCeremony();
-  document.getElementById('tab-3').innerHTML = renderHandbook();
+  document.getElementById('tab-1').innerHTML = renderHandbook();
 
-  const labels = lang === 'fr'
-    ? ['Programme', 'Jour J', 'Cérémonie', 'Livret']
-    : ['Full Week', 'Wedding Day', 'Ceremony', 'Handbook'];
-  labels.forEach((l, i) => { document.getElementById(`tl${i}`).textContent = l; });
+  const mainLabels = lang === 'fr'
+    ? ['Programme', 'Livret', 'Privé']
+    : ['Full Week', 'Handbook', 'Private'];
+  mainLabels.forEach((l, i) => { document.getElementById(`tl${i}`).textContent = l; });
 
   document.getElementById('hdr-date').textContent =
     lang === 'fr' ? '30 Juin 2026 · Golden, BC' : 'June 30, 2026 · Golden, BC';
+
+  // Update gate labels
+  if (lang === 'fr') {
+    document.getElementById('gate-title') && (document.getElementById('gate-title').textContent = 'Section Privée');
+    document.getElementById('gate-sub') && (document.getElementById('gate-sub').textContent = 'Réservée aux mariés & à l\'équipe');
+    document.getElementById('gate-btn') && (document.getElementById('gate-btn').textContent = 'Accéder →');
+    document.getElementById('pw-input') && (document.getElementById('pw-input').placeholder = 'Mot de passe…');
+  } else {
+    document.getElementById('gate-title') && (document.getElementById('gate-title').textContent = 'Private Section');
+    document.getElementById('gate-sub') && (document.getElementById('gate-sub').textContent = 'For the wedding team only');
+    document.getElementById('gate-btn') && (document.getElementById('gate-btn').textContent = 'Enter →');
+    document.getElementById('pw-input') && (document.getElementById('pw-input').placeholder = 'Password…');
+  }
+
+  if (privateUnlocked) renderPrivateContent();
 }
 
 // ── Tab 4 — Handbook ───────────────────────────────────────
@@ -801,6 +932,11 @@ async function init() {
     DATA = { cal: CAL, wed: WED, cer: CER };
   }
   renderAll();
+  // If already unlocked from a prior session, pre-render private content
+  if (privateUnlocked) {
+    document.getElementById('lock-icon').textContent = '🔓';
+    renderPrivateContent();
+  }
 }
 
 // ── Embedded fallback data ─────────────────────────────────
